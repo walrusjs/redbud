@@ -1,0 +1,8 @@
+{
+  "name": "redbud-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "bin": {
+    "redbud-scripts": "bin/redbud-scripts.js"
+  }
+}

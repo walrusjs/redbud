@@ -1,0 +1,11 @@
+{
+  "name": "@example/alias",
+  "private": true,
+  "scripts": {
+    "build": "redbud build",
+    "version": "redbud version"
+  },
+  "devDependencies": {
+    "redbud": "workspace:*"
+  }
+}

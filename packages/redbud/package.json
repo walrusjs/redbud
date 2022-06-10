@@ -1,0 +1,68 @@
+{
+  "name": "redbud",
+  "version": "1.0.0",
+  "description": "redbud",
+  "homepage": "https://github.com/walrusjs/redbud#readme",
+  "bugs": {
+    "url": "https://github.com/walrusjs/redbud/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walrusjs/redbud.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "redbud": "bin/redbud.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "compiled"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "build:deps": "redbud-scripts bundleDeps",
+    "dev": "pnpm build -- --watch"
+  },
+  "dependencies": {
+    "@umijs/babel-preset-umi": "4.0.0-rc.22",
+    "@umijs/bundler-utils": "4.0.0-rc.22",
+    "@umijs/bundler-webpack": "4.0.0-rc.22",
+    "@umijs/core": "4.0.0-rc.22",
+    "@umijs/utils": "4.0.0-rc.22",
+    "babel-plugin-module-resolver": "4.1.0",
+    "babel-plugin-transform-define": "2.0.1",
+    "loader-runner": "^4.3.0",
+    "minimatch": "^5.1.0",
+    "v8-compile-cache": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/loader-runner": "2.2.4",
+    "@zerollup/ts-transform-paths": "1.7.18"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wangxingkang <wangxingkang@qq.com> (https://github.com/wangxingkang)"
+  ],
+  "compiledConfig": {
+    "deps": [
+      "@zerollup/ts-transform-paths"
+    ],
+    "externals": {
+      "typescript": "typescript"
+    },
+    "excludeDtsDeps": [
+      "@zerollup/ts-transform-paths"
+    ],
+    "noMinify": [
+      "@zerollup/ts-transform-paths"
+    ]
+  }
+}

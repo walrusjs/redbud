@@ -1,0 +1,22 @@
+{
+  "name": "@redbud/plugins",
+  "version": "1.0.0",
+  "description": "redbud plugins",
+  "license": "ISC",
+  "author": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "dev": "pnpm build -- --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wangxingkang <wangxingkang@qq.com> (https://github.com/wangxingkang)"
+  ]
+}
