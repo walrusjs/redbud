@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "redbud-scripts turbo --cmd build",
+    "build:examples": "pnpm -r --filter @example/* run build",
     "dev": "redbud-scripts turbo --cmd dev",
     "prepare": "husky install",
     "test": "vitest run",
