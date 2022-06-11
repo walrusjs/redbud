@@ -12,7 +12,7 @@
 
 <br />
 
-**注意:** 本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，并在其中加入自己对基础库开发工作流的一些理解。
+**注意:** 本项目主要参考 [`father@4`](https://github.com/umijs/father-next) 的代码实现，并在其中加入自己对基础库开发工作流的一些理解。
 
 经过对目前主流的一些基础库(组件库/工具库等)和打包工具(webpack/rollup/esbuild等)的的研究，得出如何结论:
 
@@ -30,7 +30,7 @@
 - `es` 和 `lib` 采用的就是 Bundless 模式；
 - `dist` 采用的就是 Bundle 模式；
 
-以 [father@3] 为例，就提供了 `babel` 和 `rollup` 两种模式供用户选择。(babel就相当于Bundless模式；rolup就相当于Bundle模式)
+以 [father@3](https://github.com/umijs/father) 为例，就提供了 `babel` 和 `rollup` 两种模式供用户选择。(babel就相当于Bundless模式；rolup就相当于Bundle模式)
 
 ## ✨ 特性
 
