@@ -64,6 +64,12 @@ importers:
     devDependencies:
       redbud: link:../../packages/redbud
 
+  examples/typescript:
+    specifiers:
+      redbud: workspace:*
+    devDependencies:
+      redbud: link:../../packages/redbud
+
   packages/plugins:
     specifiers: {}
 
