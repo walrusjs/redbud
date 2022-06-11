@@ -10,7 +10,11 @@
 基于Umi4架构，提供打包、Lint、发布等完整工作流的解决方案
 </div>
 
-本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，加入自己对打包、发布流程的一些理解。
+<br />
+
+**注意:**
+
+本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，并在其中加入自己对基础库打包流程的一些理解。
 
 ## ✨ 特性
 
@@ -32,3 +36,15 @@ yarn add redbud -D
 // pnpm
 pnpm i redbud -D
 ```
+
+## Cli
+
+### version
+
+查看 `redbud` 的版本 
+
+```bash
+$ redbud version
+```
+
+### build
