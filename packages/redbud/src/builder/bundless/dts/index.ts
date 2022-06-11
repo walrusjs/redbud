@@ -2,8 +2,25 @@ import path from 'path';
 // @ts-ignore
 import tsTransformPaths from '../../../../compiled/@zerollup/ts-transform-paths';
 
-export async function getDeclarations(inputFiles: string[], opts: { cwd: string }) {
-  const output: { file: string; content: string; sourceFile: string }[] = [];
+interface GetDeclarationsOptions {
+  /** 当前的工作目录 */
+  cwd: string;
+}
+
+interface Output {
+  file: string;
+  content: string;
+  sourceFile: string;
+}
+
+/**
+ * 获取Ts文件的类型定义
+ * @param inputFiles
+ * @param opts
+ * @returns
+ */
+export async function getDeclarations(inputFiles: string[], opts: GetDeclarationsOptions) {
+  const output: Output[] = [];
   const ts = await import('typescript');
 
   const tsconfigPath = ts.findConfigFile(opts.cwd, ts.sys.fileExists);
@@ -19,15 +36,21 @@ export async function getDeclarations(inputFiles: string[], opts: { cwd: string 
 
     const tsHost = ts.createCompilerHost(tsconfig.options);
 
-    tsHost.writeFile = (fileName, declaration, _a, _b, sourceFiles) => {
+    tsHost.writeFile = (fileName, declaration, _a, _b, sourceFiles = []) => {
+      let sourceFile = sourceFiles![0].fileName;
+
+      if (path.isAbsolute(sourceFile)) {
+        sourceFile = path.relative(opts.cwd, sourceFile);
+      }
+
       output.push({
         file: path.basename(fileName),
         content: declaration,
-        sourceFile: sourceFiles![0].fileName
+        sourceFile: sourceFile
       });
     };
 
-    const program = ts.createProgram(inputFiles, tsconfig.options as any, tsHost);
+    const program = ts.createProgram(inputFiles, tsconfig.options, tsHost);
 
     const transformer = tsTransformPaths(program);
 
