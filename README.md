@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://ant.design">
+  <a href="https://redbud.xingkang.wang">
     <img width="200" src="https://cdn.jsdelivr.net/gh/walrusjs/redbud@latest/public/logo.svg">
   </a>
 </p>
@@ -16,15 +16,17 @@
 
 经过对目前主流的一些基础库(组件库/工具库等)和打包工具(webpack/rollup/esbuild等)的的研究，得出如何结论:
 
-1. 编译模式主要分为两种场景：
-  - Bundless: 目录对目录;
+1. 编译模式主要分为两种：
   - Bundle: 将所有文件打包进一个文件;
+  - Bundless: 目录对目录;
 2. 目前主要提供 `esm`、`cjs`、`umd` 三种编译格式;
 
 以 React 技术栈有名的 [antd](https://ant.design/) 组件库为例，打包输出目录为 `es`、`lib`、`dist` 就分别用到了上述两种编译模式
 
 - `es` 和 `lib` 采用的就是 Bundless 模式；
 - `dist` 采用的就是 Bundle 模式；
+
+以 [father@3] 为例，就提供了 `babel` 和 `rollup` 两种模式供用户选择。(babel就相当于Bundless模式；rolup就相当于Bundle模式)
 
 ## ✨ 特性
 
