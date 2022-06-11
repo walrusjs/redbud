@@ -14,12 +14,17 @@
 
 **注意:** 本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，并在其中加入自己对基础库工作流的一些理解。
 
-对目前主流的一些基础库和打包工具的的研究，得出如何结果:
+经过对目前主流的一些基础库(组件库/工具库等)和打包工具(webpack/rollup/esbuild等)的的研究，得出如何结论:
 
-1. 编译的方式主要分为两种场景：
-  - 目录对目录的这种编译方式;
-  - 将所有文件打包进一个文件;
+1. 编译模式主要分为两种场景：
+  - Bundless: 目录对目录;
+  - Bundle: 将所有文件打包进一个文件;
 2. 目前主要提供 `esm`、`cjs`、`umd` 三种编译格式;
+
+以 React 技术栈有名的 [antd](https://ant.design/) 组件库为例，打包输出目录为 `es`、`lib`、`dist` 就分别用到了上述两种编译模式
+
+- `es` 和 `lib` 采用的就是 Bundless 模式；
+- `dist` 采用的就是 Bundle 模式；
 
 ## ✨ 特性
 
