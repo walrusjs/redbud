@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@umijs/babel-preset-umi": "4.0.0-rc.22",
+    "@umijs/bundler-esbuild": "4.0.0-rc.22",
     "@umijs/bundler-utils": "4.0.0-rc.22",
     "@umijs/bundler-webpack": "4.0.0-rc.22",
     "@umijs/core": "4.0.0-rc.22",
