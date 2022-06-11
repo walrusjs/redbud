@@ -1,6 +1,14 @@
+<p align="center">
+  <a href="https://ant.design">
+    <img width="200" src="https://cdn.jsdelivr.net/gh/walrusjs/redbud@latest/public/logo.svg">
+  </a>
+</p>
+
 <h1 align="center">Redbud</h1>
 
+<div align="center">
 基于Umi4架构，提供打包、Lint、发布等完整工作流的解决方案
+</div>
 
 本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，加入自己对打包、发布流程的一些理解。
 
