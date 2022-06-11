@@ -7,14 +7,19 @@
 <h1 align="center">Redbud</h1>
 
 <div align="center">
-基于Umi4架构，提供打包、Lint、发布等完整工作流的解决方案
+基于 Umi4 架构，提供基础库开发工作流完整的解决方案。
 </div>
 
 <br />
 
-**注意:**
+**注意:** 本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，并在其中加入自己对基础库工作流的一些理解。
 
-本项目主要参考 [`father@4`](https://github.com/umijs/umi-next/tree/master/packages/father) 的代码实现，并在其中加入自己对基础库打包流程的一些理解。
+对目前主流的一些基础库和打包工具的的研究，得出如何结果:
+
+1. 编译的方式主要分为两种场景：
+  - 目录对目录的这种编译方式;
+  - 将所有文件打包进一个文件;
+2. 目前主要提供 `esm`、`cjs`、`umd` 三种编译格式;
 
 ## ✨ 特性
 
