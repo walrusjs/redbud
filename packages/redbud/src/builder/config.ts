@@ -1,8 +1,9 @@
 import fs from 'fs';
 import { Minimatch } from 'minimatch';
+import { RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
+import { getPkgName } from '../utils';
 
-import type { RedbudConfig } from '../types';
-import { Api, RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
+import type { Api, RedbudConfig } from '../types';
 import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
 
 /**
@@ -10,9 +11,11 @@ import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
  * @param userConfig
  * @returns
  */
-export function normalizeUserConfig(userConfig: RedbudConfig) {
+export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
   const configs: BuilderConfig[] = [];
   const { umd, esm, ...baseConfig } = userConfig;
+
+  const name = getPkgName(pkg.name as string) ?? 'index';
 
   // normalize umd config
   if (umd) {
@@ -23,7 +26,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig) {
       ...baseConfig,
       ...umd,
       output: {
-        filename: 'index.umd.js',
+        filename: `${name}.umd.js`,
         path: umd.output || 'dist'
       }
     };
@@ -190,7 +193,7 @@ export function createConfigProviders(userConfig: RedbudConfig, pkg: Api['pkg'])
     bundless?: BundlessConfigProvider;
     bundle?: BundleConfigProvider;
   } = {};
-  const configs = normalizeUserConfig(userConfig);
+  const configs = normalizeUserConfig(userConfig, pkg);
 
   const { bundle, bundless } = configs.reduce(
     (r, config) => {
