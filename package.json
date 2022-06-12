@@ -39,7 +39,7 @@
     "resolve": "^1.22.0",
     "turbo": "^1.2.16",
     "typescript": "^4.7.3",
-    "vitest": "^0.14.1",
+    "vitest": "^0.14.2",
     "zx": "^4.3.0"
   },
   "engines": {
