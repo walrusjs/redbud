@@ -1,5 +1,5 @@
 {
-  "name": "@example/alias",
+  "name": "@example/alias-customize",
   "private": true,
   "scripts": {
     "build": "redbud build"
