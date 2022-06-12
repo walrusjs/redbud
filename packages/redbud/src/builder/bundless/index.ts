@@ -14,7 +14,11 @@ interface BundlessOptions {
 }
 
 export async function bundless(opts: BundlessOptions) {
-  logger.info(`Bundless for ${chalk.yellow(opts.configProvider.input)} directory`);
+  logger.info(
+    `Bundless for ${chalk.yellow(opts.configProvider.input)} directory to ${chalk.yellow(
+      opts.configProvider.configs[0].format
+    )} format`
+  );
 
   let count = 0;
   const startTime = Date.now();

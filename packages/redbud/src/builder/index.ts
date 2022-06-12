@@ -25,7 +25,17 @@ export async function builder(opts: BuilderOptions) {
     await bundle({ cwd: opts.cwd, configProvider: configProviders.bundle });
   }
 
-  if (configProviders.bundless) {
-    await bundless({ cwd: opts.cwd, configProvider: configProviders.bundless });
+  if (configProviders.bundless.esm) {
+    await bundless({
+      cwd: opts.cwd,
+      configProvider: configProviders.bundless.esm
+    });
+  }
+
+  if (configProviders.bundless.cjs) {
+    await bundless({
+      cwd: opts.cwd,
+      configProvider: configProviders.bundless.cjs
+    });
   }
 }

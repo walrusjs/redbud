@@ -1,7 +1,6 @@
 export default {
   esm: {},
-  umd: {
-    output: 'dist'
-  },
+  cjs: {},
+  umd: {},
   platform: 'browser'
 };

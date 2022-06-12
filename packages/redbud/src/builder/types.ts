@@ -2,7 +2,8 @@ import {
   RedbudBaseConfig,
   RedbudBuildTypes,
   RedbudBundleConfig,
-  RedbudBundlessConfig
+  RedbudBundlessConfig,
+  RedbudBundlessTypes
 } from '../types';
 
 /**
@@ -27,6 +28,7 @@ export interface BundlessConfig
   extends RedbudBaseConfig,
     Omit<RedbudBundlessConfig, 'input' | 'overrides'> {
   type: RedbudBuildTypes.BUNDLESS;
+  format: RedbudBundlessTypes;
   input: string;
 }
 

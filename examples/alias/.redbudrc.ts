@@ -1,7 +1,6 @@
-const path = require('path');
-
 export default {
   esm: {},
   umd: {},
+  cjs: {},
   platform: 'browser'
 };

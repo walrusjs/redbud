@@ -3,7 +3,12 @@ import { lodash } from '@umijs/utils';
 import fs from 'fs';
 import { Minimatch } from 'minimatch';
 import path from 'path';
-import { RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
+import {
+  RedbudBuildTypes,
+  RedbudBundlessTypes,
+  RedbudJSTransformerTypes,
+  RedbudPlatformTypes
+} from '../types';
 import { getPkgName, getUmdName } from '../utils';
 
 import type { Api } from '../types';
@@ -17,7 +22,7 @@ import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
  */
 export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
   const configs: BuilderConfig[] = [];
-  const { umd, esm, ...baseConfig } = userConfig;
+  const { umd, esm, cjs, ...baseConfig } = userConfig;
 
   if (!baseConfig.alias) {
     baseConfig.alias = {
@@ -108,19 +113,30 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
     }
   }
 
-  if (esm) {
-    const { overrides = {}, ...esmBaseConfig } = esm;
+  // normalize esm/cjs config
+  Object.entries({
+    ...(esm ? { esm } : {}),
+    ...(cjs ? { cjs } : {})
+  }).forEach(([formatName, formatConfig]) => {
+    const { overrides = {}, ...esmBaseConfig } = formatConfig;
     const bundlessPlatform = esmBaseConfig.platform || userConfig.platform;
 
     const bundlessConfig: Omit<BundlessConfig, 'input'> = {
       type: RedbudBuildTypes.BUNDLESS,
+      format: formatName as RedbudBundlessTypes,
       ...baseConfig,
       ...esmBaseConfig
     };
 
+    // generate config for input
     configs.push({
+      // default to transform src
       input: 'src',
-      output: 'dist/esm',
+
+      // default to output to dist
+      output: `dist/${formatName}`,
+
+      // default to use auto transformer
       transformer:
         bundlessPlatform === RedbudPlatformTypes.NODE
           ? RedbudJSTransformerTypes.ESBUILD
@@ -128,9 +144,11 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
 
       ...bundlessConfig,
 
+      // transform overrides inputs to ignores
       ignores: Object.keys(overrides).map((i) => `${i}/*`)
     });
 
+    // generate config for overrides
     Object.keys(overrides).forEach((oInput) => {
       const overridePlatform = overrides[oInput].platform || bundlessPlatform;
 
@@ -156,7 +174,7 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
           .map((i) => `${i}/*`)
       });
     });
-  }
+  });
 
   return configs;
 }
@@ -241,9 +259,9 @@ export class BundlessConfigProvider extends ConfigProvider {
 export function createConfigProviders(opts: BuilderOptions) {
   const { pkg } = opts;
   const providers: {
-    bundless?: BundlessConfigProvider;
+    bundless: { esm?: BundlessConfigProvider; cjs?: BundlessConfigProvider };
     bundle?: BundleConfigProvider;
-  } = {};
+  } = { bundless: {} };
   const configs = normalizeUserConfig(opts);
 
   const { bundle, bundless } = configs.reduce(
@@ -251,14 +269,14 @@ export function createConfigProviders(opts: BuilderOptions) {
       if (config.type === RedbudBuildTypes.BUNDLE) {
         r.bundle.push(config);
       } else if (config.type === RedbudBuildTypes.BUNDLESS) {
-        r.bundless.push(config);
+        r.bundless[config.format].push(config);
       }
 
       return r;
     },
-    { bundle: [], bundless: [] } as {
+    { bundle: [], bundless: { esm: [], cjs: [] } } as {
       bundle: BundleConfig[];
-      bundless: BundlessConfig[];
+      bundless: { esm: BundlessConfig[]; cjs: BundlessConfig[] };
     }
   );
 
@@ -266,8 +284,12 @@ export function createConfigProviders(opts: BuilderOptions) {
     providers.bundle = new BundleConfigProvider(bundle, pkg);
   }
 
-  if (bundless.length) {
-    providers.bundless = new BundlessConfigProvider(bundless, pkg);
+  if (bundless.cjs.length) {
+    providers.bundless.cjs = new BundlessConfigProvider(bundless.cjs, pkg);
+  }
+
+  if (bundless.esm.length) {
+    providers.bundless.esm = new BundlessConfigProvider(bundless.esm, pkg);
   }
 
   return providers;

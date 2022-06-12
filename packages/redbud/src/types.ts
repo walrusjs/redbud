@@ -24,6 +24,11 @@ export enum RedbudPlatformTypes {
   BROWSER = 'browser'
 }
 
+export enum RedbudBundlessTypes {
+  ESM = 'esm',
+  CJS = 'cjs'
+}
+
 export interface RedbudBaseConfig {
   /** 编译平台 */
   platform?: `${RedbudPlatformTypes}`;
@@ -120,5 +125,22 @@ export interface RedbudConfig extends RedbudBaseConfig {
   /**
    * transformer config (esm)
    */
-  esm?: RedbudBundlessConfig;
+  esm?: RedbudBundlessConfig & {
+    /**
+     * output directory
+     * @default dist/esm
+     */
+    output?: string;
+  };
+
+  /**
+   * transformer config (cjs)
+   */
+  cjs?: RedbudBundlessConfig & {
+    /**
+     * output directory
+     * @default dist/cjs
+     */
+    output?: string;
+  };
 }

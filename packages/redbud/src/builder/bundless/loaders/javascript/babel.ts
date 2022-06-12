@@ -1,5 +1,6 @@
 import { transform } from '@umijs/bundler-utils/compiled/babel/core';
 import path from 'path';
+import { RedbudBundlessTypes } from '../../../../types';
 import type { JSTransformer } from '../types';
 
 /**
@@ -35,7 +36,9 @@ const babelTransformer: JSTransformer = function (content) {
       [
         require.resolve('@umijs/babel-preset-umi'),
         {
-          presetEnv: {},
+          presetEnv: {
+            modules: this.config.format === RedbudBundlessTypes.ESM ? false : 'auto'
+          },
           presetReact: {},
           presetTypeScript: {},
           pluginTransformRuntime: {

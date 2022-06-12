@@ -1,5 +1,3 @@
 import content from '@/content';
 
-export function getContent() {
-  return content;
-}
+console.log(content);

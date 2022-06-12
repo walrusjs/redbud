@@ -1,5 +1,3 @@
-import { getName } from 'utils/index';
+import content from 'utils/content';
 
-export function getContent() {
-  return getName();
-}
+console.log(content);
