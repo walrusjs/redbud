@@ -1,9 +1,7 @@
 export default {
-  esm: {
-    output: 'dist/esm'
-  },
+  esm: {},
   umd: {
-    output: 'dist/umd'
+    output: 'dist'
   },
   platform: 'browser'
 };
