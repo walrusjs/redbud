@@ -58,6 +58,12 @@ importers:
     devDependencies:
       redbud: link:../../packages/redbud
 
+  examples/alias-customize:
+    specifiers:
+      redbud: workspace:*
+    devDependencies:
+      redbud: link:../../packages/redbud
+
   examples/components:
     specifiers:
       redbud: workspace:*
