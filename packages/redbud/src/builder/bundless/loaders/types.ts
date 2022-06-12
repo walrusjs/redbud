@@ -34,7 +34,7 @@ export interface LoaderItem {
 export type BundlessLoader = (
   this: ExtendedLoaderContext &
     LoaderContext & {
-      setOuputOptions: (options: LoaderOuput['options']) => void;
+      setOutputOptions: (options: LoaderOuput['options']) => void;
     },
   content: string
 ) => string;

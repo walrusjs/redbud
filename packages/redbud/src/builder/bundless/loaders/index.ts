@@ -49,7 +49,7 @@ export default async (fileAbsPath: string, opts: { config: BundlessConfig; pkg: 
           context: {
             config: opts.config,
             pkg: opts.pkg,
-            setOuputOptions(opts: any) {
+            setOutputOptions(opts: any) {
               outputOpts = opts;
             }
           } as Partial<ThisParameterType<BundlessLoader>>,

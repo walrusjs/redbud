@@ -1,6 +1,6 @@
 export default {
-  // esm: {},
-  // cjs: {},
+  esm: {},
+  cjs: {},
   umd: {},
   platform: 'browser'
 };
