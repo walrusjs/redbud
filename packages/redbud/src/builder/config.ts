@@ -1,10 +1,13 @@
 import { JSMinifier } from '@umijs/bundler-webpack/dist/types';
+import { lodash } from '@umijs/utils';
 import fs from 'fs';
 import { Minimatch } from 'minimatch';
+import path from 'path';
 import { RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
-import { getUmdName } from '../utils';
+import { getPkgName, getUmdName } from '../utils';
 
-import type { Api, RedbudConfig } from '../types';
+import type { Api } from '../types';
+import type { BuilderOptions } from './';
 import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
 
 /**
@@ -12,13 +15,25 @@ import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
  * @param userConfig
  * @returns
  */
-export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
+export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
   const configs: BuilderConfig[] = [];
   const { umd, esm, ...baseConfig } = userConfig;
+
+  if (!baseConfig.alias) {
+    baseConfig.alias = {
+      '@': path.resolve(cwd, './src')
+    };
+  } else {
+    baseConfig.alias = {
+      '@': path.resolve(cwd, './src'),
+      ...baseConfig.alias
+    };
+  }
 
   // normalize umd config
   if (umd) {
     const outputPath = umd.output || 'dist/umd';
+    const pkgName = getPkgName(pkg.name as string);
 
     let getUmdNameOpts = {
       suffix: '',
@@ -43,6 +58,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       bundler: 'webpack',
       ...baseConfig,
       ...umd,
+      library: pkgName ? lodash.camelCase(pkgName) : undefined,
       output: {
         filename: `${defaultOutputFilename.normal}.js`,
         path: outputPath
@@ -222,12 +238,13 @@ export class BundlessConfigProvider extends ConfigProvider {
  * @param pkg package.json
  * @returns
  */
-export function createConfigProviders(userConfig: RedbudConfig, pkg: Api['pkg']) {
+export function createConfigProviders(opts: BuilderOptions) {
+  const { pkg } = opts;
   const providers: {
     bundless?: BundlessConfigProvider;
     bundle?: BundleConfigProvider;
   } = {};
-  const configs = normalizeUserConfig(userConfig, pkg);
+  const configs = normalizeUserConfig(opts);
 
   const { bundle, bundless } = configs.reduce(
     (r, config) => {

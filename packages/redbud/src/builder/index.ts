@@ -6,14 +6,14 @@ import { getProviderOutputs } from './utils';
 
 import type { Api, RedbudConfig } from '../types';
 
-interface Opts {
+export interface BuilderOptions {
   cwd: string;
   userConfig: RedbudConfig;
   pkg: Api['pkg'];
 }
 
-export async function builder(opts: Opts) {
-  const configProviders = createConfigProviders(opts.userConfig, opts.pkg);
+export async function builder(opts: BuilderOptions) {
+  const configProviders = createConfigProviders(opts);
   const outputs = getProviderOutputs(configProviders);
 
   // 清空输出目录

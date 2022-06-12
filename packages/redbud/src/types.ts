@@ -85,6 +85,13 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
   entry?: string | Record<string, Omit<RedbudBundleConfig, 'entry'> & RedbudBaseConfig>;
 
   /**
+   * 指定暴露的全局变量
+   * https://www.webpackjs.com/configuration/output/#output-library
+   * @default ${camelCase(basename(pkg.name))}
+   */
+  library?: string;
+
+  /**
    * 输出路径
    * @default dist
    */

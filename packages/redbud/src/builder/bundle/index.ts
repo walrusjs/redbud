@@ -45,6 +45,10 @@ export async function bundle(opts: { cwd: string; configProvider: BundleConfigPr
       chainWebpack(memo: any) {
         memo.output.libraryTarget('umd');
 
+        if (config.library) {
+          memo.output.library(config.library);
+        }
+
         // 默认输出 sourcemap
         memo.devtool('source-map');
 
