@@ -1,0 +1,10 @@
+{
+  "name": "@example/components",
+  "private": true,
+  "scripts": {
+    "build": "redbud build"
+  },
+  "devDependencies": {
+    "redbud": "workspace:*"
+  }
+}
