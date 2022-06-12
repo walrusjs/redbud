@@ -1,3 +1,4 @@
+import { JSMinifier } from '@umijs/bundler-webpack/dist/types';
 import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
 
 export type Api = PluginAPI &
@@ -93,6 +94,9 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
    * 设置哪些模块不打包
    */
   externals?: Record<string, string>;
+
+  /** JS压缩配置 */
+  jsMinifier?: JSMinifier;
 
   /**
    * 修改 webpack 配置，基于 webpack-chain。

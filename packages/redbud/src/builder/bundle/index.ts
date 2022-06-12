@@ -28,8 +28,8 @@ export async function bundle(opts: { cwd: string; configProvider: BundleConfigPr
         externals: config.externals,
         outputPath: config.output.path,
 
-        // 是否开启压缩
-        jsMinifier: JSMinifier.none,
+        // 是否开启JS压缩
+        jsMinifier: config.jsMinifier ?? JSMinifier.esbuild,
 
         // postcss config
         extraPostCSSPlugins,
@@ -54,7 +54,8 @@ export async function bundle(opts: { cwd: string; configProvider: BundleConfigPr
         }
 
         return memo;
-      }
+      },
+      clean: false
     });
   }
 }

@@ -9,7 +9,7 @@ export function getPkgName(name: string) {
   return name?.startsWith('@') ? name.split('/')[1] : name;
 }
 
-interface GetUmdNameOptions {
+export interface GetUmdNameOptions {
   suffix?: string;
   minifier?: boolean;
 }
@@ -22,5 +22,5 @@ export function getUmdName(
   const { suffix, minifier } = opts;
   const pkgName = getPkgName(pkg.name as string) ?? defaultName;
 
-  return `${pkgName}${suffix ? '.' + suffix : ''}${minifier ? 'min' : ''}`;
+  return `${pkgName}${suffix ? '.' + suffix : ''}${minifier ? '.min' : ''}`;
 }

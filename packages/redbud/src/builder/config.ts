@@ -1,3 +1,4 @@
+import { JSMinifier } from '@umijs/bundler-webpack/dist/types';
 import fs from 'fs';
 import { Minimatch } from 'minimatch';
 import { RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
@@ -20,14 +21,21 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
     const outputPath = umd.output || 'dist/umd';
 
     let getUmdNameOpts = {
-      suffix: ''
+      suffix: '',
+      minifier: false
     };
 
     if (!outputPath.endsWith('umd')) {
       getUmdNameOpts.suffix = 'umd';
     }
 
-    const umdName = getUmdName(pkg, 'index', getUmdNameOpts);
+    const defaultOutputFilename = {
+      normal: getUmdName(pkg, 'index', getUmdNameOpts),
+      minify: getUmdName(pkg, 'index', {
+        ...getUmdNameOpts,
+        minifier: true
+      })
+    };
 
     const entryConfig = umd.entry;
     const bundleConfig: Omit<BundleConfig, 'entry'> = {
@@ -36,7 +44,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       ...baseConfig,
       ...umd,
       output: {
-        filename: `${umdName}.js`,
+        filename: `${defaultOutputFilename.normal}.js`,
         path: outputPath
       }
     };
@@ -59,12 +67,28 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       });
     } else {
       // generate single entry to single config
-      configs.push({
-        ...bundleConfig,
+      configs.push(
+        ...[
+          {
+            ...bundleConfig,
+            jsMinifier: JSMinifier.none,
 
-        // default to bundle src/index
-        entry: entryConfig || 'src/index'
-      });
+            // default to bundle src/index
+            entry: entryConfig || 'src/index'
+          },
+          {
+            ...bundleConfig,
+            jsMinifier: JSMinifier.esbuild,
+            output: {
+              ...bundleConfig.output,
+              filename: `${defaultOutputFilename.minify}.js`
+            },
+
+            // default to bundle src/index
+            entry: entryConfig || 'src/index'
+          }
+        ]
+      );
     }
   }
 
