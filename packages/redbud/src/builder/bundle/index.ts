@@ -1,3 +1,4 @@
+import { JSMinifier } from '@umijs/bundler-webpack/dist/types';
 import { chalk, importLazy, logger } from '@umijs/utils';
 import path from 'path';
 
@@ -27,6 +28,9 @@ export async function bundle(opts: { cwd: string; configProvider: BundleConfigPr
         externals: config.externals,
         outputPath: config.output.path,
 
+        // 是否开启压缩
+        jsMinifier: JSMinifier.none,
+
         // postcss config
         extraPostCSSPlugins,
         postcssLoader
@@ -40,6 +44,9 @@ export async function bundle(opts: { cwd: string; configProvider: BundleConfigPr
       // configure library related options
       chainWebpack(memo: any) {
         memo.output.libraryTarget('umd');
+
+        // 默认输出 sourcemap
+        memo.devtool('source-map');
 
         // modify webpack target
         if (config.platform === 'node') {

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { Minimatch } from 'minimatch';
 import { RedbudBuildTypes, RedbudJSTransformerTypes, RedbudPlatformTypes } from '../types';
-import { getPkgName } from '../utils';
+import { getUmdName } from '../utils';
 
 import type { Api, RedbudConfig } from '../types';
 import type { BuilderConfig, BundleConfig, BundlessConfig } from './types';
@@ -15,10 +15,20 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
   const configs: BuilderConfig[] = [];
   const { umd, esm, ...baseConfig } = userConfig;
 
-  const name = getPkgName(pkg.name as string) ?? 'index';
-
   // normalize umd config
   if (umd) {
+    const outputPath = umd.output || 'dist/umd';
+
+    let getUmdNameOpts = {
+      suffix: ''
+    };
+
+    if (!outputPath.endsWith('umd')) {
+      getUmdNameOpts.suffix = 'umd';
+    }
+
+    const umdName = getUmdName(pkg, 'index', getUmdNameOpts);
+
     const entryConfig = umd.entry;
     const bundleConfig: Omit<BundleConfig, 'entry'> = {
       type: RedbudBuildTypes.BUNDLE,
@@ -26,8 +36,8 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       ...baseConfig,
       ...umd,
       output: {
-        filename: `${name}.umd.js`,
-        path: umd.output || 'dist'
+        filename: `${umdName}.js`,
+        path: outputPath
       }
     };
 
@@ -70,7 +80,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
 
     configs.push({
       input: 'src',
-      output: 'dist',
+      output: 'dist/esm',
       transformer:
         bundlessPlatform === RedbudPlatformTypes.NODE
           ? RedbudJSTransformerTypes.ESBUILD
