@@ -84,7 +84,7 @@ import { assert, eachPkg, getPkgs } from './.internal/utils';
 
   // commit
   logger.event('commit');
-  await $`git commit --all --message "release: ${version}"`;
+  await $`git commit --all --message "chore(release): ${version}"`;
 
   // git tag
   if (tag !== 'canary') {
