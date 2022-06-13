@@ -3,7 +3,6 @@
   "scripts": {
     "build": "redbud-scripts turbo --cmd build",
     "build:examples": "pnpm -r --filter @example/* run build",
-    "check:packageFiles": "umi-scripts checkPackageFiles",
     "dev": "redbud-scripts turbo --cmd dev",
     "prepare": "husky install",
     "release": "redbud-scripts release",
