@@ -17,8 +17,6 @@ import { assert, eachPkg, getPkgs } from './.internal/utils';
   const isGitClean = (await $`git status --porcelain`).stdout.trim().length;
   assert(!isGitClean, 'git status is not clean');
 
-  return;
-
   // check git remote update
   logger.event('check git remote update');
   await $`git fetch`;
@@ -39,23 +37,19 @@ import { assert, eachPkg, getPkgs } from './.internal/utils';
   assert(changed, `no package is changed`);
 
   // check npm ownership
-  // logger.event('check npm ownership');
-  // const whoami = (await $`npm whoami`).stdout.trim();
-  // await Promise.all(
-  //   ['umi', '@umijs/core'].map(async (pkg) => {
-  //     const owners = (await $`npm owner ls ${pkg}`).stdout
-  //       .trim()
-  //       .split('\n')
-  //       .map((line) => {
-  //         return line.split(' ')[0];
-  //       });
-  //     assert(owners.includes(whoami), `${pkg} is not owned by ${whoami}`);
-  //   }),
-  // );
-
-  // check package.json
-  // logger.event('check package.json info');
-  // await $`npm run check:packageFiles`;
+  logger.event('check npm ownership');
+  const whoami = (await $`npm whoami`).stdout.trim();
+  await Promise.all(
+    ['redbud'].map(async (pkg) => {
+      const owners = (await $`npm owner ls ${pkg}`).stdout
+        .trim()
+        .split('\n')
+        .map((line) => {
+          return line.split(' ')[0];
+        });
+      assert(owners.includes(whoami), `${pkg} is not owned by ${whoami}`);
+    })
+  );
 
   // clean
   logger.event('clean');
@@ -67,16 +61,10 @@ import { assert, eachPkg, getPkgs } from './.internal/utils';
   // build packages
   logger.event('build packages');
   await $`npm run build`;
-  // await $`npm run build:extra`;
-  // await $`npm run build:client`;
 
-  logger.event('check client code change');
+  // logger.event('check client code change');
   const isGitCleanAfterClientBuild = (await $`git status --porcelain`).stdout.trim().length;
   assert(!isGitCleanAfterClientBuild, 'client code is updated');
-
-  // generate changelog
-  // TODO
-  logger.event('generate changelog');
 
   // bump version
   logger.event('bump version');
@@ -132,10 +120,8 @@ import { assert, eachPkg, getPkgs } from './.internal/utils';
       logger.info(`+ ${pkg}`);
     })
   );
-  await $`cd packages/umi && npm publish --tag ${tag} ${otpArg}`;
-  logger.info(`+ umi`);
-  await $`cd packages/max && npm publish --tag ${tag} ${otpArg}`;
-  logger.info(`+ @umijs/max`);
+  await $`cd packages/redbud && npm publish --tag ${tag} ${otpArg}`;
+  logger.info(`+ redbud`);
   $.verbose = true;
 
   // sync tnpm
