@@ -119,11 +119,14 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
     ...(cjs ? { cjs } : {})
   }).forEach(([formatName, formatConfig]) => {
     const { overrides = {}, ...esmBaseConfig } = formatConfig;
-    const bundlessPlatform = esmBaseConfig.platform || userConfig.platform;
+
+    const defaultPlatform =
+      formatName === 'esm' ? RedbudPlatformTypes.BROWSER : RedbudPlatformTypes.NODE;
 
     const bundlessConfig: Omit<BundlessConfig, 'input'> = {
       type: RedbudBuildTypes.BUNDLESS,
       format: formatName as RedbudBundlessTypes,
+      platform: userConfig.platform || defaultPlatform,
       ...baseConfig,
       ...esmBaseConfig
     };
@@ -138,7 +141,7 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
 
       // default to use auto transformer
       transformer:
-        bundlessPlatform === RedbudPlatformTypes.NODE
+        bundlessConfig.platform === RedbudPlatformTypes.NODE
           ? RedbudJSTransformerTypes.ESBUILD
           : RedbudJSTransformerTypes.BABEL,
 
@@ -150,7 +153,7 @@ export function normalizeUserConfig({ userConfig, pkg, cwd }: BuilderOptions) {
 
     // generate config for overrides
     Object.keys(overrides).forEach((oInput) => {
-      const overridePlatform = overrides[oInput].platform || bundlessPlatform;
+      const overridePlatform = overrides[oInput].platform || bundlessConfig.platform;
 
       configs.push({
         // default to use auto transformer

@@ -1,6 +1,6 @@
 import { transform } from '@umijs/bundler-utils/compiled/babel/core';
 import path from 'path';
-import { RedbudBundlessTypes } from '../../../../types';
+import { RedbudBundlessTypes, RedbudPlatformTypes } from '../../../../types';
 import type { JSTransformer } from '../types';
 
 /**
@@ -32,11 +32,14 @@ const babelTransformer: JSTransformer = function (content) {
 
   return transform(content, {
     filename: this.paths.fileAbsPath,
+    babelrc: false,
     presets: [
       [
         require.resolve('@umijs/babel-preset-umi'),
         {
           presetEnv: {
+            targets:
+              this.config.platform === RedbudPlatformTypes.BROWSER ? { ie: 11 } : { node: 14 },
             modules: this.config.format === RedbudBundlessTypes.ESM ? false : 'auto'
           },
           presetReact: {},

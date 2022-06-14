@@ -2,7 +2,7 @@ import fs from 'fs';
 import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
 import type { BundlessConfig } from '../../types';
-import type { BundlessLoader, LoaderItem, LoaderOuput } from './types';
+import type { BundlessLoader, LoaderItem, LoaderOutput } from './types';
 
 const loaders: LoaderItem[] = [];
 
@@ -37,10 +37,8 @@ export default async (fileAbsPath: string, opts: { config: BundlessConfig; pkg: 
   });
 
   if (matched) {
-    return new Promise<
-      { content: string; options: { ext?: string; declaration?: boolean } } | undefined
-    >((resolve, reject) => {
-      let outputOpts: LoaderOuput['options'] = {};
+    return new Promise<LoaderOutput | void>((resolve, reject) => {
+      let outputOpts: LoaderOutput['options'] = {};
 
       runLoaders(
         {

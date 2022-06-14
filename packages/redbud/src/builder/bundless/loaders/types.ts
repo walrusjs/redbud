@@ -2,8 +2,8 @@ import type { ExtendedLoaderContext } from 'loader-runner';
 import type { Api } from '../../../types';
 import type { BundlessConfig } from '../../types';
 
-export interface LoaderOuput {
-  result: string;
+export interface LoaderOutput {
+  content: string;
   options: {
     ext?: string;
     declaration?: boolean;
@@ -32,12 +32,20 @@ export interface LoaderItem {
  * normal loader type (base on webpack loader)
  */
 export type BundlessLoader = (
-  this: ExtendedLoaderContext &
+  this: Omit<ExtendedLoaderContext, 'async'> &
     LoaderContext & {
-      setOutputOptions: (options: LoaderOuput['options']) => void;
+      /**
+       * configure output options for current file
+       */
+      setOutputOptions: (options: LoaderOutput['options']) => void;
+
+      /**
+       * complete async method type
+       */
+      async: () => (err: Error | null, result?: LoaderOutput['content']) => void;
     },
   content: string
-) => string;
+) => LoaderOutput['content'] | void;
 
 /**
  * bundless transformer type
@@ -50,4 +58,4 @@ export type JSTransformer = (
     };
   },
   content: Parameters<BundlessLoader>[0]
-) => ReturnType<BundlessLoader>;
+) => LoaderOutput['content'] | Promise<LoaderOutput['content']>;
