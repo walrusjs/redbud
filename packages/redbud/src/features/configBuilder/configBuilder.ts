@@ -1,10 +1,8 @@
 import { addLoader as addBundlessLoader } from '../../builder/bundless/loaders';
-import {
-  addTransformer as addJSTransformer,
-  TransformerItem
-} from '../../builder/bundless/loaders/javascript';
+import { addTransformer as addJSTransformer } from '../../builder/bundless/loaders/javascript';
 import { RedbudJSTransformerTypes } from '../../types';
 
+import type { TransformerItem } from '../../builder/bundless/loaders/javascript';
 import type { LoaderItem } from '../../builder/bundless/loaders/types';
 import type { Api } from '../../types';
 
