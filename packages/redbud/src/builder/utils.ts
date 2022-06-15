@@ -1,4 +1,4 @@
-import { createConfigProviders } from './config';
+import type { createConfigProviders } from './config';
 
 export function getProviderOutputs(providers: ReturnType<typeof createConfigProviders>) {
   const set = new Set<string>();

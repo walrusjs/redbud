@@ -1,4 +1,4 @@
-import { JSMinifier } from '@umijs/bundler-webpack/dist/types';
+import type { JSMinifier } from '@umijs/bundler-webpack/dist/types';
 import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
 
 export type Api = PluginAPI &

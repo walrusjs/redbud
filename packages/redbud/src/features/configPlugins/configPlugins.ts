@@ -1,4 +1,4 @@
-import { Api } from '../../types';
+import type { Api } from '../../types';
 import { getSchemas } from './schema';
 
 export default (api: Api) => {
