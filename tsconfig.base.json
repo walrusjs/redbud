@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "target": "es2019",
     "jsx": "react",
+    "importsNotUsedAsValues": "error",
     "paths": {
       "redbud": ["./packages/redbud"]
     }
