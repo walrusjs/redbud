@@ -27,16 +27,19 @@
     "dev": "pnpm build -- --watch"
   },
   "dependencies": {
-    "@umijs/babel-preset-umi": "4.0.0-rc.22",
-    "@umijs/bundler-esbuild": "4.0.0-rc.22",
-    "@umijs/bundler-utils": "4.0.0-rc.22",
-    "@umijs/bundler-webpack": "4.0.0-rc.22",
-    "@umijs/core": "4.0.0-rc.22",
-    "@umijs/utils": "4.0.0-rc.22",
+    "@umijs/babel-preset-umi": "4.0.0-rc.24",
+    "@umijs/bundler-esbuild": "4.0.0-rc.24",
+    "@umijs/bundler-utils": "4.0.0-rc.24",
+    "@umijs/bundler-webpack": "4.0.0-rc.24",
+    "@umijs/core": "4.0.0-rc.24",
+    "@umijs/utils": "4.0.0-rc.24",
     "babel-plugin-module-resolver": "4.1.0",
     "babel-plugin-transform-define": "2.0.1",
     "loader-runner": "^4.3.0",
     "minimatch": "^5.1.0",
+    "postcss": "^8.4.13",
+    "postcss-flexbugs-fixes": "5.0.2",
+    "postcss-preset-env": "7.5.0",
     "v8-compile-cache": "^2.3.0"
   },
   "devDependencies": {
@@ -57,6 +60,7 @@
       "@zerollup/ts-transform-paths"
     ],
     "externals": {
+      "less": "@umijs/bundler-utils/compiled/less",
       "typescript": "typescript"
     },
     "excludeDtsDeps": [
