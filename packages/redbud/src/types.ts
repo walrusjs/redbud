@@ -9,6 +9,19 @@ export type Api = PluginAPI &
     addTransformer: (transformer: Transformer) => void;
   };
 
+export interface RedbudPreBundleConfig {
+  /**
+   * dependencies or entries need to be pre-bundled
+   */
+  deps: string[] | Record<string, { output?: string; minify?: boolean }>;
+
+  /**
+   * extra dependencies & declarations need to be externalized
+   * @note all deps & package.json dependencies will be added to externals by default
+   */
+  extraExternals: Record<string, string>;
+}
+
 export enum RedbudBuildTypes {
   BUNDLE = 'bundle',
   BUNDLESS = 'bundless'

@@ -8,6 +8,7 @@ export default (api: Api) => {
       // commands
       require.resolve('./commands/build'),
       require.resolve('./commands/version'),
+      require.resolve('./commands/prebundle'),
 
       // features
       require.resolve('./features/configBuilder/configBuilder'),

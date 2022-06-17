@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build:deps": "redbud prebundle"
+  },
+  "devDependencies": {
+    "redbud": "workspace:*",
+    "rimraf": "3.0.2"
+  }
+}
