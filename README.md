@@ -70,3 +70,40 @@ $ redbud version
 ```
 
 ### build
+
+## 目录结构
+
+┣ ━ .github github 相关配置
+┣ ━ .husky husky 相关配置 (git 钩子)
+┣ ━ .vscode vscode 相关配置
+┣ ━ docs 文档相关
+┣ ━ examples 示例
+┃　　┣ ━ alias 默认别名示例
+┃　　┣ ━ alias-customize 自定义别名示例
+┃　　┣ ━ components 组件示例
+┃　　┣ ━ less less示例
+┃　　┣ ━ normal js示例
+┃　　┣ ━ prebundle 预打包示例
+┃　　┗ ━ typescript ts 示例
+┣ ━ packages
+┃　　┣ ━ lint 默认别名示例
+┃　　┗ ━ redbud ts 示例
+┣ ━ public
+┃　　┗ ━ logo.svg logo
+┣ ━ scripts 脚本相关
+┣ ━ test 测试相关
+┣ ━ .editorconfig
+┣ ━ .gitattributes
+┣ ━ .gitignore
+┣ ━ .npmrc
+┣ ━ .prettierignore
+┣ ━ .prettierrc.js
+┣ ━ commitlint.config.js
+┣ ━ lerna.json
+┣ ━ package.json
+┣ ━ pnpm-lock.yaml
+┣ ━ pnpm-workspace.yaml
+┣ ━ tsconfig.base.json
+┣ ━ tsconfig.json
+┣ ━ turbo.json
+┗ ━ vitest.config.ts
