@@ -3,6 +3,7 @@
   "scripts": {
     "build": "redbud-scripts turbo --cmd build",
     "build:examples": "pnpm -r --filter @example/* run build",
+    "clean": "rimraf dist",
     "dev": "redbud-scripts turbo --cmd dev",
     "prepare": "husky install",
     "release": "redbud-scripts release",
@@ -34,7 +35,7 @@
     "git-repo-info": "^2.1.1",
     "husky": "^8.0.1",
     "lerna": "^5.1.4",
-    "lint-staged": "^13.0.1",
+    "lint-staged": "^13.0.2",
     "matcher": "^5.0.0",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",

@@ -19,7 +19,7 @@ importers:
       git-repo-info: ^2.1.1
       husky: ^8.0.1
       lerna: ^5.1.4
-      lint-staged: ^13.0.1
+      lint-staged: ^13.0.2
       matcher: ^5.0.0
       prettier: ^2.7.1
       prettier-plugin-organize-imports: ^3.0.0
@@ -48,7 +48,7 @@ importers:
       git-repo-info: 2.1.1
       husky: 8.0.1
       lerna: 5.1.4
-      lint-staged: 13.0.1
+      lint-staged: 13.0.2
       matcher: 5.0.0
       prettier: 2.7.1
       prettier-plugin-organize-imports: 3.0.0_prettier@2.7.1+typescript@4.7.3
@@ -5167,8 +5167,8 @@ packages:
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  /lint-staged/13.0.1:
-    resolution: {integrity: sha512-Ykaf4QTi0a02BF7cnq7JIPGOJxH4TkNMWhSlJdH9wOekd0X+gog47Jfh/0L31DqZe5AiydLGC7LkPqpaNm+Kvg==}
+  /lint-staged/13.0.2:
+    resolution: {integrity: sha512-qQLfLTh9z34eMzfEHENC+QBskZfxjomrf+snF3xJ4BzilORbD989NLqQ00ughsF/A+PT41e87+WsMFabf9++pQ==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
