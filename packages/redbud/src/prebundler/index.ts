@@ -1,8 +1,8 @@
+import { Extractor } from '@microsoft/api-extractor';
 import { chalk, logger, winPath } from '@umijs/utils';
 import fs from 'fs';
 import path from 'path';
 // @ts-ignore
-import { Extractor } from '@microsoft/api-extractor';
 import ncc from '@vercel/ncc';
 import { getConfig } from './config';
 
