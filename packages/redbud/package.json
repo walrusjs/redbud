@@ -27,6 +27,7 @@
     "dev": "pnpm build -- --watch"
   },
   "dependencies": {
+    "@microsoft/api-extractor": "7.25.2",
     "@umijs/babel-preset-umi": "4.0.0-rc.24",
     "@umijs/bundler-utils": "4.0.0-rc.24",
     "@umijs/bundler-webpack": "4.0.0-rc.24",
