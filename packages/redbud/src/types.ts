@@ -13,7 +13,12 @@ export interface RedbudPreBundleConfig {
   /**
    * dependencies or entries need to be pre-bundled
    */
-  deps: string[] | Record<string, { output?: string; minify?: boolean }>;
+  deps: string[] | Record<string, { output?: string; minify?: boolean; dts?: boolean }>;
+
+  /**
+   * extra dep declarations need to be pre-bundled
+   */
+  extraDtsDeps?: string[];
 
   /**
    * extra dependencies & declarations need to be externalized

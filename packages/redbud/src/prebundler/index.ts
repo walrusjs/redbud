@@ -2,16 +2,20 @@ import { chalk, logger, winPath } from '@umijs/utils';
 import fs from 'fs';
 import path from 'path';
 // @ts-ignore
+import { Extractor } from '@microsoft/api-extractor';
 import ncc from '@vercel/ncc';
 import { getConfig } from './config';
 
 export default async (opts: Parameters<typeof getConfig>[0]) => {
+  // patch @microsoft/api-extractor before prepare config
+  await import('./patcher');
+
   const config = getConfig(opts);
   const count = Object.keys(config.deps).length;
   const startTime = Date.now();
 
   for (const dep in config.deps) {
-    const { output, pkg, ncc: nccConfig } = config.deps[dep];
+    const { output, pkg, nccConfig } = config.deps[dep];
     const outputDir = path.dirname(output);
 
     logger.info(
@@ -41,6 +45,15 @@ export default async (opts: Parameters<typeof getConfig>[0]) => {
         }),
         'utf-8'
       );
+    });
+  }
+
+  // bundle dts
+  Object.keys(config.dts).length && logger.event(`Generate declaration files...`);
+  for (const dts in config.dts) {
+    Extractor.invoke(config.dts[dts].maeConfig, {
+      localBuild: true,
+      showVerboseMessages: false
     });
   }
 
