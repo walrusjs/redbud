@@ -3,6 +3,7 @@
 /examples/*/.mfsu
 /examples/*/.umi
 /examples/*/.umi-production
+/examples/*/compiled
 /examples/*/.output
 /examples/*/api
 /examples/*/.umi-test
