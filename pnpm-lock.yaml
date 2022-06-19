@@ -94,9 +94,13 @@ importers:
 
   examples/prebundle:
     specifiers:
+      '@types/minimatch': 3.0.5
+      minimatch: 3.1.2
       redbud: workspace:*
       rimraf: 3.0.2
     devDependencies:
+      '@types/minimatch': 3.0.5
+      minimatch: 3.1.2
       redbud: link:../../packages/redbud
       rimraf: 3.0.2
 
