@@ -30,8 +30,8 @@ importers:
       rimraf: ^3.0.2
       turbo: ^1.2.16
       typescript: ^4.7.4
-      vitest: ^0.15.1
-      zx: ^4.3.0
+      vitest: ^0.15.2
+      zx: 4.3.0
     devDependencies:
       '@commitlint/cli': 17.0.2
       '@commitlint/config-conventional': 17.0.2
@@ -59,7 +59,7 @@ importers:
       rimraf: 3.0.2
       turbo: 1.2.16
       typescript: 4.7.4
-      vitest: 0.15.1
+      vitest: 0.15.2
       zx: 4.3.0
 
   examples/alias:
@@ -129,6 +129,7 @@ importers:
       postcss: 8.4.14
       postcss-flexbugs-fixes: 5.0.2
       postcss-preset-env: 7.7.1
+      typescript: ^4.7.4
       v8-compile-cache: 2.3.0
     dependencies:
       '@microsoft/api-extractor': 7.25.2
@@ -146,6 +147,7 @@ importers:
       postcss: 8.4.14
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.14
       postcss-preset-env: 7.7.1_postcss@8.4.14
+      typescript: 4.7.4
       v8-compile-cache: 2.3.0
     devDependencies:
       '@types/loader-runner': 2.2.4
@@ -6923,15 +6925,6 @@ packages:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
     dev: false
 
-  /postcss/8.4.13:
-    resolution: {integrity: sha512-jtL6eTBrza5MPzy8oJLFuUscHDXTV5KcLlqAWHl5q5WYRfnNRGSmOZmOZ1T6Gy7A99mOZfqungmZMpMmCVJ8ZA==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.4
-      picocolors: 1.0.0
-      source-map-js: 1.0.2
-    dev: true
-
   /postcss/8.4.14:
     resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}
     engines: {node: ^10 || ^12 || >=14}
@@ -6939,7 +6932,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: false
 
   /prettier-plugin-organize-imports/3.0.0_prettier@2.7.1+typescript@4.7.4:
     resolution: {integrity: sha512-juSCJs5TMOqGGPaN/A/1xzWFzRPH2LG1LPLCr64dzKaVnPafJdtgDNmDVlU+8A4LbQzVJg0DTvgA8swBuIUhlg==}
@@ -7971,8 +7963,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /tinyspy/0.3.2:
-    resolution: {integrity: sha512-2+40EP4D3sFYy42UkgkFFB+kiX2Tg3URG/lVvAZFfLxgGpnWl5qQJuBw1gaLttq8UOS+2p3C0WrhJnQigLTT2Q==}
+  /tinyspy/0.3.3:
+    resolution: {integrity: sha512-gRiUR8fuhUf0W9lzojPf1N1euJYA30ISebSfgca8z76FOvXtVXqd5ojEIaKLWbDQhAaC3ibxZIjqbyi4ybjcTw==}
     engines: {node: '>=14.0.0'}
     dev: true
 
@@ -8251,7 +8243,6 @@ packages:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /uglify-js/3.16.0:
     resolution: {integrity: sha512-FEikl6bR30n0T3amyBh3LoiBdqHRy/f4H80+My34HOesOKyHfOsxAPAxOoqC0JUnC1amnO0IwkYC3sko51caSw==}
@@ -8379,15 +8370,15 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.14.38
-      postcss: 8.4.13
+      postcss: 8.4.14
       resolve: 1.22.1
       rollup: 2.73.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.15.1:
-    resolution: {integrity: sha512-NaNFi93JKSuvV4YGnfQ0l0GKYxH0EsLcTrrXaCzd6qfVEZM/RJpjwSevg6waNFqu2DyN6e0aHHdrCZW5/vh5NA==}
+  /vitest/0.15.2:
+    resolution: {integrity: sha512-cMabuUqu+nNHafkdN7H8Z20+UZTrrUfqjGwAoLwUwrqFGWBz3gXwxndjbLf6mgSFs9lF/JWjKeNM1CXKwtk26w==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -8412,7 +8403,7 @@ packages:
       debug: 4.3.4
       local-pkg: 0.4.1
       tinypool: 0.1.3
-      tinyspy: 0.3.2
+      tinyspy: 0.3.3
       vite: 2.9.12
     transitivePeerDependencies:
       - less
