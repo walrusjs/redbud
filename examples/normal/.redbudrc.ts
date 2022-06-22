@@ -1,6 +1,11 @@
+const path = require('path');
+
 export default {
   esm: {},
   cjs: {},
   umd: {},
-  platform: 'browser'
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+  },
+  platform: 'browser',
 };

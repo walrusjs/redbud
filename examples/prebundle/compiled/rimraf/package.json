@@ -1,5 +1,1 @@
-{
-  "name": "rimraf",
-  "license": "ISC",
-  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)"
-}
+{"name":"rimraf","author":"Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)","license":"ISC"}

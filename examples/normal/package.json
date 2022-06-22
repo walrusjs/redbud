@@ -1,10 +1,6 @@
 {
-  "name": "@example/normal",
-  "private": true,
   "scripts": {
-    "build": "redbud build"
-  },
-  "devDependencies": {
-    "redbud": "workspace:*"
+    "build": "../../bin/father.js build",
+    "version": "../../bin/father.js version"
   }
 }

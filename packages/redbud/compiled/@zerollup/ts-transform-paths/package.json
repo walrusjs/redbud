@@ -1,9 +1,0 @@
-{
-  "name": "@zerollup/ts-transform-paths",
-  "license": "MIT",
-  "author": {
-    "name": "Stefan Zerkalica",
-    "email": "zerkalica@gmail.com"
-  },
-  "typings": "dist/index.d.ts"
-}

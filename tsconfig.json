@@ -1,6 +1,18 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "."
-  }
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "target": "es2019",
+    "jsx": "react",
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src"]
 }

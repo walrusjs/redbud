@@ -1,56 +1,95 @@
 {
-  "private": true,
+  "name": "redbud",
+  "version": "1.0.0-beta.3",
+  "description": "redbud",
+  "homepage": "https://github.com/walrusjs/redbud#readme",
+  "bugs": {
+    "url": "https://github.com/walrusjs/redbud/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walrusjs/redbud.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "redbud": "bin/redbud.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "compiled"
+  ],
   "scripts": {
-    "build": "redbud-scripts turbo --cmd build",
-    "build:examples": "pnpm -r --filter @example/* run build",
+    "build": "pnpm tsc",
+    "build:release": "pnpm tsc -p tsconfig.build.json",
     "clean": "rimraf dist",
-    "dev": "redbud-scripts turbo --cmd dev",
+    "dev": "pnpm build -- --watch",
     "prepare": "husky install",
-    "release": "redbud-scripts release",
-    "test": "vitest run",
-    "tsc:check": "tsc --noEmit",
-    "turbo:clean": "rimraf .turbo"
+    "prepublish": "pnpm clean && pnpm build:release",
+    "test": "jest",
+    "test:cov": "jest --collectCoverage"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
-    "*.{jsx,less,md,json}": [
+    "*.{js,md,json}": [
       "prettier --write"
     ],
-    "*.ts?(x)": [
+    "*.ts": [
       "prettier --parser=typescript --write"
     ]
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-packagejson"
+    ],
+    "printWidth": 80,
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "dependencies": {
+    "@microsoft/api-extractor": "7.25.1",
+    "@umijs/babel-preset-umi": "^4.0.0",
+    "@umijs/bundler-utils": "^4.0.0",
+    "@umijs/bundler-webpack": "^4.0.0",
+    "@umijs/core": "^4.0.0",
+    "@umijs/utils": "^4.0.0",
+    "@vercel/ncc": "0.34.0",
+    "babel-plugin-module-resolver": "4.1.0",
+    "babel-plugin-react-require": "3.1.3",
+    "babel-plugin-transform-define": "2.0.1",
+    "loader-runner": "4.2.0",
+    "minimatch": "3.1.2",
+    "typescript": "^4.7.2",
+    "v8-compile-cache": "2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
-    "@pnpm/lockfile-file": "^5.1.0",
-    "@pnpm/logger": "^4.0.0",
-    "@types/loader-runner": "^2.2.4",
-    "@types/minimatch": "^3.0.5",
-    "@types/resolve": "^1.20.2",
-    "@types/rimraf": "^3.0.2",
-    "@umijs/utils": "^4.0.0",
-    "@vercel/ncc": "^0.34.0",
-    "dts-packer": "^0.0.3",
-    "esno": "^0.16.3",
-    "git-repo-info": "^2.1.1",
+    "@types/jest": "^27",
+    "@types/loader-runner": "2.2.4",
+    "@types/minimatch": "3.0.5",
+    "@umijs/test": "^4.0.0",
+    "@zerollup/ts-transform-paths": "1.7.18",
     "husky": "^8.0.1",
-    "lerna": "^5.1.4",
-    "lint-staged": "^13.0.2",
-    "matcher": "^5.0.0",
-    "prettier": "^2.7.1",
-    "prettier-plugin-organize-imports": "^3.0.0",
+    "jest": "^27",
+    "lint-staged": "^13.0.1",
+    "prettier": "^2.6.2",
     "prettier-plugin-packagejson": "^2.2.18",
-    "redbud": "workspace:*",
-    "redbud-scripts": "workspace:*",
-    "resolve": "^1.22.1",
     "rimraf": "^3.0.2",
-    "turbo": "^1.2.16",
-    "typescript": "^4.7.4",
-    "vitest": "^0.15.2",
-    "zx": "4.3.0"
+    "ts-node": "^10"
   },
-  "engines": {
-    "node": ">=14",
-    "pnpm": ">=6.20.0"
-  }
+  "packageManager": "pnpm@6.32.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wangxingkang <wangxingkang@qq.com> (https://github.com/wangxingkang)"
+  ]
 }

@@ -1,9 +1,2 @@
-node_modules
-.umi
-.umi-production
 dist
-*.d.ts
-*.js
-*.md
-*.yaml
-*.less
+compiled

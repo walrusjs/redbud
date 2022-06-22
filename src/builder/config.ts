@@ -1,0 +1,318 @@
+import path from 'path';
+import { Minimatch } from 'minimatch';
+import { winPath } from '@umijs/utils';
+import {
+  Api,
+  RedbudBaseConfig,
+  RedbudBuildTypes,
+  RedbudBundleConfig,
+  RedbudBundlessConfig,
+  RedbudBundlessTypes,
+  RedbudConfig,
+  RedbudJSTransformerTypes,
+  RedbudPlatformTypes,
+} from '../types';
+
+/**
+ * declare bundler config
+ */
+export interface IBundleConfig
+  extends RedbudBaseConfig,
+    Omit<RedbudBundleConfig, 'entry' | 'output'> {
+  type: RedbudBuildTypes.BUNDLE;
+  bundler: 'webpack';
+  entry: string;
+  output: {
+    filename: string;
+    path: string;
+  };
+}
+
+/**
+ * declare bundless config
+ */
+export interface IBundlessConfig
+  extends RedbudBaseConfig,
+    Omit<RedbudBundlessConfig, 'input' | 'overrides'> {
+  type: RedbudBuildTypes.BUNDLESS;
+  format: RedbudBundlessTypes;
+  input: string;
+}
+
+/**
+ * declare union builder config
+ */
+export type IBuilderConfig = IBundleConfig | IBundlessConfig;
+
+/**
+ * generate bundle filename by package name
+ */
+function getAutoBundleFilename(pkgName?: string) {
+  return pkgName ? pkgName.replace(/^@[^/]+\//, '') : 'index';
+}
+
+/**
+ * normalize user config to bundler configs
+ * @param userConfig  config from user
+ */
+export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
+  const configs: IBuilderConfig[] = [];
+  const { umd, esm, cjs, ...baseConfig } = userConfig;
+
+  // TODO: convert alias from tsconfig paths
+
+  // normalize umd config
+  if (umd) {
+    const entryConfig = umd.entry;
+    const bundleConfig: Omit<IBundleConfig, 'entry'> = {
+      type: RedbudBuildTypes.BUNDLE,
+      bundler: 'webpack',
+      ...baseConfig,
+
+      // override base configs from umd config
+      ...umd,
+
+      // generate default output
+      output: {
+        // default to generate filename from package name
+        filename: `${getAutoBundleFilename(pkg.name)}.min.js`,
+        // default to output dist
+        path: umd.output || 'dist/umd',
+      },
+    };
+
+    if (typeof entryConfig === 'object') {
+      // extract multiple entries to single configs
+      Object.keys(entryConfig).forEach((entry) => {
+        configs.push({
+          ...bundleConfig,
+
+          // override all configs from entry config
+          ...entryConfig[entry],
+          entry,
+
+          // override output
+          output: {
+            filename: `${path.parse(entry).name}.min.js`,
+            path: entryConfig[entry].output || bundleConfig.output.path,
+          },
+        });
+      });
+    } else {
+      // generate single entry to single config
+      configs.push({
+        ...bundleConfig,
+
+        // default to bundle src/index
+        entry: entryConfig || 'src/index',
+      });
+    }
+  }
+
+  // normalize esm config
+  Object.entries({
+    ...(esm ? { esm } : {}),
+    ...(cjs ? { cjs } : {}),
+  }).forEach(([formatName, formatConfig]) => {
+    const { overrides = {}, ...esmBaseConfig } = formatConfig;
+    const defaultPlatform =
+      formatName === 'esm'
+        ? RedbudPlatformTypes.BROWSER
+        : RedbudPlatformTypes.NODE;
+    const bundlessConfig: Omit<IBundlessConfig, 'input'> = {
+      type: RedbudBuildTypes.BUNDLESS,
+      format: formatName as RedbudBundlessTypes,
+      platform: userConfig.platform || defaultPlatform,
+      ...baseConfig,
+      ...esmBaseConfig,
+    };
+
+    // generate config for input
+    const rootConfig = {
+      // default to transform src
+      input: 'src',
+
+      // default to output to dist
+      output: `dist/${formatName}`,
+
+      // default to use auto transformer
+      transformer:
+        bundlessConfig.platform === RedbudPlatformTypes.NODE
+          ? RedbudJSTransformerTypes.ESBUILD
+          : RedbudJSTransformerTypes.BABEL,
+
+      ...bundlessConfig,
+
+      // transform overrides inputs to ignores
+      ignores: Object.keys(overrides)
+        .map((i) => `${i}/**`)
+        .concat(bundlessConfig.ignores || []),
+    };
+    configs.push(rootConfig);
+
+    // generate config for overrides
+    Object.keys(overrides).forEach((oInput) => {
+      const overridePlatform =
+        overrides[oInput].platform || bundlessConfig.platform;
+
+      // validate override input
+      if (!oInput.startsWith(`${rootConfig.input}/`)) {
+        throw new Error(
+          `Override input ${oInput} must be a subpath of ${formatName}.input!`,
+        );
+      }
+
+      configs.push({
+        // default to use auto transformer
+        transformer:
+          overridePlatform === RedbudPlatformTypes.NODE
+            ? RedbudJSTransformerTypes.ESBUILD
+            : RedbudJSTransformerTypes.BABEL,
+
+        // default to output relative root config
+        output: `${rootConfig.output}/${winPath(
+          path.relative(rootConfig.input, oInput),
+        )}`,
+
+        ...bundlessConfig,
+
+        // override all configs for different input
+        ...overrides[oInput],
+
+        // specific different input
+        input: oInput,
+
+        // transform another child overrides to ignores
+        // for support to transform src/a and src/a/child with different configs
+        ignores: Object.keys(overrides)
+          .filter((i) => !i.startsWith(oInput))
+          .map((i) => `${i}/**`)
+          .concat(bundlessConfig.ignores || []),
+      });
+    });
+  });
+
+  return configs;
+}
+
+class Minimatcher {
+  matcher?: InstanceType<typeof Minimatch>;
+
+  ignoreMatchers: InstanceType<typeof Minimatch>[] = [];
+
+  constructor(pattern: string, ignores: string[] = []) {
+    this.matcher = new Minimatch(`${pattern}/**`);
+    ignores.forEach((i) => {
+      this.ignoreMatchers.push(new Minimatch(i, { dot: true }));
+
+      // see also: https://github.com/isaacs/node-glob/blob/main/common.js#L37
+      if (i.slice(-3) === '/**') {
+        this.ignoreMatchers.push(
+          new Minimatch(i.replace(/(\/\*\*)+$/, ''), { dot: true }),
+        );
+      }
+    });
+  }
+
+  match(filePath: string) {
+    return (
+      this.matcher!.match(filePath) &&
+      this.ignoreMatchers.every((m) => !m.match(filePath))
+    );
+  }
+}
+
+class ConfigProvider {
+  pkg: ConstructorParameters<typeof ConfigProvider>[0];
+
+  constructor(pkg: Api['pkg']) {
+    this.pkg = pkg;
+  }
+
+  onConfigChange() {
+    // not implemented
+  }
+}
+
+export class BundleConfigProvider extends ConfigProvider {
+  type = RedbudBuildTypes.BUNDLE;
+
+  configs: IBundleConfig[] = [];
+
+  constructor(
+    configs: IBundleConfig[],
+    pkg: ConstructorParameters<typeof ConfigProvider>[0],
+  ) {
+    super(pkg);
+    this.configs = configs;
+  }
+}
+
+export class BundlessConfigProvider extends ConfigProvider {
+  type = RedbudBuildTypes.BUNDLESS;
+
+  configs: IBundlessConfig[] = [];
+
+  input = '';
+
+  output = '';
+
+  matchers: InstanceType<typeof Minimatcher>[] = [];
+
+  constructor(
+    configs: IBundlessConfig[],
+    pkg: ConstructorParameters<typeof ConfigProvider>[0],
+  ) {
+    super(pkg);
+    this.configs = configs;
+    this.input = configs[0].input;
+    this.output = configs[0].output!;
+    configs.forEach((config) => {
+      this.matchers.push(new Minimatcher(config.input, config.ignores));
+    });
+  }
+
+  getConfigForFile(filePath: string) {
+    return this.configs[this.matchers.findIndex((m) => m.match(filePath))];
+  }
+}
+
+export function createConfigProviders(
+  userConfig: RedbudConfig,
+  pkg: Api['pkg'],
+) {
+  const providers: {
+    bundless: { esm?: BundlessConfigProvider; cjs?: BundlessConfigProvider };
+    bundle?: BundleConfigProvider;
+  } = { bundless: {} };
+  const configs = normalizeUserConfig(userConfig, pkg);
+  const { bundle, bundless } = configs.reduce(
+    (r, config) => {
+      if (config.type === RedbudBuildTypes.BUNDLE) {
+        r.bundle.push(config);
+      } else if (config.type === RedbudBuildTypes.BUNDLESS) {
+        r.bundless[config.format].push(config);
+      }
+
+      return r;
+    },
+    { bundle: [], bundless: { esm: [], cjs: [] } } as {
+      bundle: IBundleConfig[];
+      bundless: { esm: IBundlessConfig[]; cjs: IBundlessConfig[] };
+    },
+  );
+
+  if (bundle.length) {
+    providers.bundle = new BundleConfigProvider(bundle, pkg);
+  }
+
+  if (bundless.cjs.length) {
+    providers.bundless.cjs = new BundlessConfigProvider(bundless.cjs, pkg);
+  }
+
+  if (bundless.esm.length) {
+    providers.bundless.esm = new BundlessConfigProvider(bundless.esm, pkg);
+  }
+
+  return providers;
+}
