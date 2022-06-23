@@ -2,7 +2,7 @@ import fs from 'fs';
 import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
 import type { IBundlessConfig } from '../../config';
-import type { IBundlessLoader, ILoaderOutput } from './types';
+import type { BundlessLoader, ILoaderOutput } from './types';
 
 /**
  * loader item type
@@ -72,7 +72,7 @@ export default async (
             setOutputOptions(opts) {
               outputOpts = opts;
             },
-          } as Partial<ThisParameterType<IBundlessLoader>>,
+          } as Partial<ThisParameterType<BundlessLoader>>,
           readResource: fs.readFile.bind(fs),
         },
         (err, { result }) => {

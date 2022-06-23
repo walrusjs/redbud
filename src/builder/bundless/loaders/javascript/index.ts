@@ -1,7 +1,7 @@
-import type { IBundlessLoader, IJSTransformer, ILoaderOutput } from '../types';
+import type { BundlessLoader, JSTransformer, ILoaderOutput } from '../types';
 import { getTsconfig } from '../../dts';
 
-const transformers: Record<string, IJSTransformer> = {};
+const transformers: Record<string, JSTransformer> = {};
 
 export interface TransformerItem {
   id: string;
@@ -14,7 +14,7 @@ export interface TransformerItem {
  */
 export function addTransformer(item: TransformerItem) {
   const mod = require(item.transformer);
-  const transformer: IJSTransformer = mod.default || mod;
+  const transformer: JSTransformer = mod.default || mod;
 
   transformers[item.id] = transformer;
 }
@@ -22,7 +22,7 @@ export function addTransformer(item: TransformerItem) {
 /**
  * builtin javascript loader
  */
-const jsLoader: IBundlessLoader = function (content) {
+const jsLoader: BundlessLoader = function (content) {
   const isTsFile = /tsx?$/.test(this.resource);
   const transformer = transformers[this.config.transformer!];
   const outputOpts: ILoaderOutput['options'] = {};

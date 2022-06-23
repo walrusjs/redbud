@@ -24,7 +24,7 @@ export interface ILoaderContext {
 /**
  * normal loader type (base on webpack loader)
  */
-export type IBundlessLoader = (
+export type BundlessLoader = (
   this: Omit<ExtendedLoaderContext, 'async'> &
     ILoaderContext & {
       /**
@@ -46,12 +46,12 @@ export type IBundlessLoader = (
 /**
  * bundless transformer type
  */
-export type IJSTransformer = (
+export type JSTransformer = (
   this: ILoaderContext & {
     paths: {
       cwd: string;
       fileAbsPath: string;
     };
   },
-  content: Parameters<IBundlessLoader>[0],
+  content: Parameters<BundlessLoader>[0],
 ) => ILoaderOutput['content'] | Promise<ILoaderOutput['content']>;

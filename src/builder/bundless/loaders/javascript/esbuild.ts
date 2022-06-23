@@ -2,7 +2,7 @@ import path from 'path';
 import { winPath } from '@umijs/utils';
 import { build } from '@umijs/bundler-utils/compiled/esbuild';
 import { RedbudPlatformTypes, RedbudBundlessConfig } from '../../../../types';
-import type { IJSTransformer } from '../types';
+import type { JSTransformer } from '../types';
 
 /**
  * create a replacer for transform alias path to relative path
@@ -41,7 +41,7 @@ function createAliasReplacer(opts: { alias: RedbudBundlessConfig['alias'] }) {
 /**
  * esbuild transformer
  */
-const esbuildTransformer: IJSTransformer = async function () {
+const esbuildTransformer: JSTransformer = async function () {
   const replacer = createAliasReplacer({ alias: this.config.alias });
 
   const {

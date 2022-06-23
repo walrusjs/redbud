@@ -2,7 +2,7 @@ import { transform } from '@umijs/bundler-utils/compiled/babel/core';
 import { winPath } from '@umijs/utils';
 import path from 'path';
 import { RedbudBundlessTypes, RedbudPlatformTypes } from '../../../../types';
-import type { IJSTransformer } from '../types';
+import type { JSTransformer } from '../types';
 
 /**
  * parse for stringify define value, use to babel-plugin-transform-define
@@ -20,7 +20,7 @@ function getParsedDefine(define: Record<string, string>) {
 /**
  * babel transformer
  */
-const babelTransformer: IJSTransformer = function (content) {
+const babelTransformer: JSTransformer = function (content) {
   const {
     extraBabelPlugins = [],
     extraBabelPresets = [],
