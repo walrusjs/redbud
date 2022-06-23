@@ -25,25 +25,36 @@ function getProviderOutputs(
   return Array.from(set);
 }
 
-interface IBuilderOpts {
+interface BuilderOpts {
   userConfig: RedbudConfig;
   cwd: string;
   pkg: Api['pkg'];
 }
 
-interface IWatchBuilderResult {
+interface WatchBuilderResult {
   close: chokidar.FSWatcher['close'];
 }
 
 // overload normal/watch mode
-function builder(opts: IBuilderOpts): Promise<void>;
+function builder(opts: BuilderOpts): Promise<void>;
 function builder(
-  opts: IBuilderOpts & { watch: true },
-): Promise<IWatchBuilderResult>;
+  opts: BuilderOpts & { watch: true },
+): Promise<WatchBuilderResult>;
 
 async function builder(
-  opts: IBuilderOpts & { watch?: true },
-): Promise<IWatchBuilderResult | void> {
+  opts: BuilderOpts & { watch?: true },
+): Promise<WatchBuilderResult | void> {
+  // add default alias
+  if (opts.userConfig?.alias) {
+    opts.userConfig.alias = {
+      '@': path.resolve(opts.cwd, './src'),
+    };
+  } else {
+    opts.userConfig.alias = {
+      '@': path.resolve(opts.cwd, './src'),
+      ...opts.userConfig.alias,
+    };
+  }
   const configProviders = createConfigProviders(opts.userConfig, opts.pkg);
   const outputs = getProviderOutputs(configProviders);
   const watchers: chokidar.FSWatcher[] = [];
