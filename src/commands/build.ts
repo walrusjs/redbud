@@ -7,7 +7,7 @@ export default (api: Api) => {
     description: 'build',
     async fn() {
       await builder({
-        userConfig: api.userConfig,
+        userConfig: api.config,
         cwd: api.cwd,
         pkg: api.pkg,
       });

@@ -158,6 +158,8 @@ export interface RedbudPreBundleConfig {
 }
 
 export interface RedbudConfig extends RedbudBaseConfig {
+  extends?: string;
+
   /**
    * bundler config (umd)
    */
