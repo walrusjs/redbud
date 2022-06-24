@@ -12,16 +12,16 @@ import type { CompilerHost } from 'typescript';
 // @ts-ignore
 const oCreateCompilerHost = CompilerState._createCompilerHost;
 
-if (!oCreateCompilerHost.name.includes('father')) {
+if (!oCreateCompilerHost.name.includes('redbud')) {
   // @ts-ignore
-  CompilerState._createCompilerHost = function _fatherHackCreateCompilerHost(
+  CompilerState._createCompilerHost = function _redbudHackCreateCompilerHost(
     ...args: any
   ) {
     const tsHost: CompilerHost = oCreateCompilerHost.apply(CompilerState, args);
     const oReadFile = tsHost.readFile;
 
     // hack readFile method to replace legacy export = syntax to esm
-    tsHost.readFile = function fatherHackReadFile(...args) {
+    tsHost.readFile = function redbudHackReadFile(...args) {
       let content = oReadFile.apply(tsHost, args);
       // regexp to match export = [Symbol];
       const legacyExportReg = /[\r\n]export\s+=\s+([\w$]+)\s*([;\r\n])/;
@@ -39,7 +39,7 @@ if (!oCreateCompilerHost.name.includes('father')) {
           logger.warn(
             `Unhandled legacy export syntax in ${chalk.gray(
               args[0],
-            )}, please report this issue to father if the d.ts file is unexpected.`,
+            )}, please report this issue to redbud if the d.ts file is unexpected.`,
           );
         }
       }
@@ -53,5 +53,5 @@ if (!oCreateCompilerHost.name.includes('father')) {
   // disable typescript version checking logic to omit the log
   // because api-extractor builtin typescript is not latest
   // @ts-ignore
-  Extractor._checkCompilerCompatibility = function fatherHackEmpty() {};
+  Extractor._checkCompilerCompatibility = function redbudHackEmpty() {};
 }

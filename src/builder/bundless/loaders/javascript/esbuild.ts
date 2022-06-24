@@ -60,7 +60,7 @@ const esbuildTransformer: JSTransformer = async function () {
     absWorkingDir: this.paths.cwd,
     plugins: [
       {
-        name: 'plugin-father-alias',
+        name: 'plugin-redbud-alias',
         setup: (builder) => {
           builder.onResolve({ filter: /.*/ }, (args) => {
             if (args.kind === 'entry-point') {

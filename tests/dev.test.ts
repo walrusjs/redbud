@@ -7,7 +7,7 @@ import * as cli from '../src/cli/cli';
 const CASE_DIR = path.join(__dirname, 'fixtures/dev');
 const CASE_SRC = path.join(CASE_DIR, 'src');
 const CASE_DIST = path.join(CASE_DIR, 'dist');
-const CASE_CONFIG = path.join(CASE_DIR, '.fatherrc.ts');
+const CASE_CONFIG = path.join(CASE_DIR, '.redbudrc.ts');
 const CASE_CONFIG_CONTENT = fs.readFileSync(CASE_CONFIG, 'utf-8');
 
 // create wait util via real setTimeout
@@ -51,8 +51,8 @@ jest.mock('@umijs/utils', () => {
 });
 
 // workaround to fix require cache in jest
-// to make sure father load the latest config
-jest.mock('./fixtures/dev/.fatherrc.ts', () => {
+// to make sure redbud load the latest config
+jest.mock('./fixtures/dev/.redbudrc.ts', () => {
   const originalModule = jest.requireActual(global.TMP_CASE_CONFIG);
 
   if (global.TMP_TRANSFORMER) {
@@ -93,7 +93,7 @@ afterAll(async () => {
   fs.writeFileSync(CASE_CONFIG, CASE_CONFIG_CONTENT, 'utf-8');
 
   jest.unmock('@umijs/utils');
-  jest.unmock('./fixtures/dev/.fatherrc.ts');
+  jest.unmock('./fixtures/dev/.redbudrc.ts');
 });
 
 test('dev: file output', () => {

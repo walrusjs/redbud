@@ -4,11 +4,11 @@ export default (api: Api) => {
   api.registerCommand({
     name: 'version',
     alias: 'v',
-    description: 'show father version',
+    description: 'show redbud version',
     fn({ args }) {
       const version = require('../../package.json').version;
       if (!args.quiet) {
-        console.log(`father@${version}`);
+        console.log(`redbud@${version}`);
       }
       return version;
     },

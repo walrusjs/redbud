@@ -1,5 +1,5 @@
 export default {
   esm: {
-    transformer: 'babel',
+    transformer: 'esbuild',
   },
 };
