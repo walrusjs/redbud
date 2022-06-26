@@ -14,6 +14,10 @@
 
 **注意:** 本项目主要参考 [`father@4`](https://github.com/umijs/father-next) 的代码实现，并在其中加入自己对基础库开发工作流的一些理解。
 
+与 father@4 主要区别如下:
+
+- 添加默认别名 `@` 指向工作目录的 `src` 目录
+
 经过对目前主流的一些基础库(组件库/工具库等)和打包工具(webpack/rollup/esbuild 等)的的研究，得出如何结论:
 
 1. 编译模式主要分为以下两种
@@ -43,10 +47,10 @@
 
 ## ✨ 特性
 
-- 📦 依赖预打包 基于 ncc（打包文件）+ dts-packer（生成类型）
+- 📦 依赖预打包 基于 ncc（打包文件）+ @microsoft/api-extractor（生成类型）
 - ⚔️ 双模式构建
   - Bundle 模式：仅 UMD 产物走 bundle 模式，核心为 webpack
-  - Bundless 模式：仅 ESM 产物走 bundless 模式，默认提供 babel（browser）+ esbuild（node）双编译核心，可基于插件系统注册 swc/tsc 模式
+  - Bundless 模式：仅 ESM、CJS 产物走 bundless 模式，默认提供 babel（browser）+ esbuild（node）双编译核心，可基于插件系统注册 swc/tsc 模式
 
 ## 🏗 安装
 
@@ -80,34 +84,33 @@ $ redbud version
 ┣ ━ .husky husky 相关配置 (git 钩子)
 ┣ ━ .vscode vscode 相关配置
 ┣ ━ docs 文档相关
+┣ ━ bin 示例
+┣ ━ compiled
 ┣ ━ examples 示例
-┃　　┣ ━ alias 默认别名示例
-┃　　┣ ━ alias-customize 自定义别名示例
-┃　　┣ ━ components 组件示例
-┃　　┣ ━ less less示例
-┃　　┣ ━ normal js示例
-┃　　┣ ━ prebundle 预打包示例
-┃　　┗ ━ typescript ts 示例
-┣ ━ packages
-┃　　┣ ━ lint 默认别名示例
-┃　　┗ ━ redbud ts 示例
-┣ ━ public
-┃　　┗ ━ logo.svg logo
-┣ ━ scripts 脚本相关
+┣ ━ src
+┃　　┣ ━ builder
+┃　　┣ ━ cli
+┃　　┣ ━ commands
+┃　　┣ ━ features
+┃　　┣ ━ generators
+┃　　┣ ━ prebundler
+┃　　┣ ━ service
+┃　　┣ ━ builder
+┃　　┣ ━ constants.ts
+┃　　┣ ━ defineConfig.ts
+┃　　┣ ━ index.ts
+┃　　┣ ━ preset.ts
+┃　　┣ ━ registerMethods.ts
+┃　　┗ ━ types.ts
+
 ┣ ━ test 测试相关
 ┣ ━ .editorconfig
-┣ ━ .gitattributes
 ┣ ━ .gitignore
-┣ ━ .npmrc
 ┣ ━ .prettierignore
-┣ ━ .prettierrc.js
-┣ ━ commitlint.config.js
-┣ ━ lerna.json
+┣ ━ jest.config.ts
+┣ ━ LICENSE
 ┣ ━ package.json
 ┣ ━ pnpm-lock.yaml
-┣ ━ pnpm-workspace.yaml
-┣ ━ tsconfig.base.json
-┣ ━ tsconfig.json
-┣ ━ turbo.json
-┗ ━ vitest.config.ts
+┣ ━ tsconfig.build.json
+┗ ━ tsconfig.json
 ```
