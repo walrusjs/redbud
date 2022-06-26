@@ -4,7 +4,6 @@ import * as cli from '../src/cli/cli';
 
 const CASES_DIR = path.join(__dirname, 'fixtures/build');
 
-// workaround for a wired issue in fs
 afterAll(() => {
   delete process.env.APP_ROOT;
 });
@@ -16,7 +15,6 @@ for (let name of cases) {
   test(`build: ${name}`, async () => {
     // execute build
     process.env.APP_ROOT = path.join(CASES_DIR, name);
-
     await cli.run({
       args: { _: ['build'], $0: 'node' },
     });

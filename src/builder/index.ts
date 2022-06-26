@@ -1,5 +1,5 @@
 import path from 'path';
-import { chokidar, rimraf } from '@umijs/utils';
+import { chokidar, rimraf, logger } from '@umijs/utils';
 import { Api, RedbudConfig } from '../types';
 import bundle from './bundle';
 import bundless from './bundless';
@@ -29,6 +29,7 @@ interface BuilderOpts {
   userConfig: RedbudConfig;
   cwd: string;
   pkg: Api['pkg'];
+  clean?: boolean;
 }
 
 interface WatchBuilderResult {
@@ -59,10 +60,13 @@ async function builder(
   const outputs = getProviderOutputs(configProviders);
   const watchers: chokidar.FSWatcher[] = [];
 
-  // clean output directories
-  outputs.forEach((output) => {
-    rimraf.sync(path.join(opts.cwd, output));
-  });
+  if (opts.clean !== false) {
+    // clean output directories
+    logger.info('Clean output directories');
+    outputs.forEach((output) => {
+      rimraf.sync(path.join(opts.cwd, output));
+    });
+  }
 
   if (!opts.watch && configProviders.bundle) {
     await bundle({

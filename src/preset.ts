@@ -13,6 +13,7 @@ export default (api: Api) => {
       require.resolve('./commands/prebundle'),
       require.resolve('./commands/release'),
       require.resolve('./commands/version'),
+      require.resolve('./commands/help'),
 
       // features
       require.resolve('./features/configBuilder/configBuilder'),

@@ -6,7 +6,7 @@ import type { Api } from '../types';
 export default (api: Api) => {
   api.registerCommand({
     name: DEV_COMMAND,
-    description: DEV_COMMAND,
+    description: 'start incremental bundless build in watch mode',
     async fn() {
       const buildWatcher = await builder({
         userConfig: api.config,

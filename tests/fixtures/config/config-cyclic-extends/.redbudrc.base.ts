@@ -1,4 +1,4 @@
 export default {
-  extends: './.fatherrc.ts',
+  extends: './.redbudrc.ts',
   esm: {},
 };

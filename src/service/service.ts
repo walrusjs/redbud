@@ -6,7 +6,6 @@ import { DEFAULT_CONFIG_FILES, FRAMEWORK_NAME } from '../constants';
 export class Service extends CoreService {
   constructor(opts?: any) {
     let cwd = process.cwd();
-
     const appRoot = process.env.APP_ROOT;
 
     if (appRoot) {
