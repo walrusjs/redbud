@@ -1,5 +1,5 @@
 {
   "devDependencies": {
-    "rimraf": "3.0.2"
+    "@vercel/ncc": "0.34.0"
   }
 }
