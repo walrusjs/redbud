@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@commitlint/cli': ^17.0.3
   '@commitlint/config-conventional': ^17.0.3
-  '@microsoft/api-extractor': 7.25.1
+  '@microsoft/api-extractor': 7.27.0
   '@types/jest': ^27
   '@types/loader-runner': 2.2.4
   '@types/minimatch': 3.0.5
@@ -32,7 +32,7 @@ specifiers:
   v8-compile-cache: 2.3.0
 
 dependencies:
-  '@microsoft/api-extractor': 7.25.1
+  '@microsoft/api-extractor': 7.27.0
   '@umijs/babel-preset-umi': 4.0.2
   '@umijs/bundler-utils': 4.0.2
   '@umijs/bundler-webpack': 4.0.2
@@ -964,24 +964,24 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.13
     dev: true
 
-  /@microsoft/api-extractor-model/7.18.1:
-    resolution: {integrity: sha512-aF9b9KU4+LCcXRbpwa+c/jOMZDsbomkehbjVNRMfCcRueeZ5KyBiERxWwc/Vk1mBFmDqkvYjK7RUxWYT2BsLAw==}
+  /@microsoft/api-extractor-model/7.20.0:
+    resolution: {integrity: sha512-6gK6ipnBsSZ9uLrUBHg3q1V7gvzvB1zVb8lbtrpKl3mQJ7vvXJm2sDNl3Vlt1gy0izgQb9s6mmyy7hLRh1qFRg==}
     dependencies:
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.45.6
+      '@rushstack/node-core-library': 3.46.0
     dev: false
 
-  /@microsoft/api-extractor/7.25.1:
-    resolution: {integrity: sha512-/RE3G1oGD5d1QNhXdapVsFfgYIadLrhl9jjYIheADC54Jetwdb/Oc3rZpZiyoeYLBPl0JVWUplc94QdfvhvmaA==}
+  /@microsoft/api-extractor/7.27.0:
+    resolution: {integrity: sha512-rzVl2Rf3LQ2b7ykymVJSXZwRcy/QuwqlLmYh7NRi9Ilkk66aOloJTBgkkni/wlg5/RyohQKSdOmFYHcF+IiS3A==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.18.1
+      '@microsoft/api-extractor-model': 7.20.0
       '@microsoft/tsdoc': 0.14.1
       '@microsoft/tsdoc-config': 0.16.1
-      '@rushstack/node-core-library': 3.45.6
+      '@rushstack/node-core-library': 3.46.0
       '@rushstack/rig-package': 0.3.12
-      '@rushstack/ts-command-line': 4.11.1
+      '@rushstack/ts-command-line': 4.12.0
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.17.0
@@ -1149,8 +1149,8 @@ packages:
       source-map: 0.7.4
     dev: false
 
-  /@rushstack/node-core-library/3.45.6:
-    resolution: {integrity: sha512-RKGjkakEPcc5em1Dej6ql8OQobofp1IPKUDU2angme5XH7BFJzL5CAuU4zxIXaS8IT5HUV3WXd/GIkPAnrKNyw==}
+  /@rushstack/node-core-library/3.46.0:
+    resolution: {integrity: sha512-5iF21WvppEkXUPkxXkkH7HlfK5jDNFTKPJT0M+t3fG8qteoJM2atQoLtXklS0yNgOXy5zNTVTO+9lSzfVUvrCA==}
     dependencies:
       '@types/node': 12.20.24
       colors: 1.2.5
@@ -1170,8 +1170,8 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/ts-command-line/4.11.1:
-    resolution: {integrity: sha512-Xo8LaQOXlNSfp+qIuIPb1tfX7b4H21ksqiMo/HbeZI5AX1klHMqKjWcEs0AqgE9huvQj6cvnCla8Eq/GDcwMIg==}
+  /@rushstack/ts-command-line/4.12.0:
+    resolution: {integrity: sha512-+dC3ZwT1PjvsEnybXzM9UUYg4xdDOl6vmE+23eByxbWmAxo/nB8VAD5iFs+jbbUd9MtG/7xqCBWbMWEDA+cBjw==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
