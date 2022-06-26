@@ -7,12 +7,12 @@ specifiers:
   '@types/jest': ^27
   '@types/loader-runner': 2.2.4
   '@types/minimatch': 3.0.5
-  '@umijs/babel-preset-umi': ^4.0.0
-  '@umijs/bundler-utils': ^4.0.0
-  '@umijs/bundler-webpack': ^4.0.0
-  '@umijs/core': ^4.0.0
-  '@umijs/test': ^4.0.0
-  '@umijs/utils': ^4.0.0
+  '@umijs/babel-preset-umi': ^4.0.2
+  '@umijs/bundler-utils': ^4.0.2
+  '@umijs/bundler-webpack': ^4.0.2
+  '@umijs/core': ^4.0.2
+  '@umijs/test': ^4.0.2
+  '@umijs/utils': ^4.0.2
   '@vercel/ncc': 0.34.0
   '@zerollup/ts-transform-paths': 1.7.18
   babel-plugin-module-resolver: 4.1.0
@@ -33,11 +33,11 @@ specifiers:
 
 dependencies:
   '@microsoft/api-extractor': 7.25.1
-  '@umijs/babel-preset-umi': 4.0.0
-  '@umijs/bundler-utils': 4.0.0
-  '@umijs/bundler-webpack': 4.0.0
-  '@umijs/core': 4.0.0
-  '@umijs/utils': 4.0.0
+  '@umijs/babel-preset-umi': 4.0.2
+  '@umijs/bundler-utils': 4.0.2
+  '@umijs/bundler-webpack': 4.0.2
+  '@umijs/core': 4.0.2
+  '@umijs/utils': 4.0.2
   '@vercel/ncc': 0.34.0
   babel-plugin-module-resolver: 4.1.0
   babel-plugin-react-require: 3.1.3
@@ -53,7 +53,7 @@ devDependencies:
   '@types/jest': 27.5.2
   '@types/loader-runner': 2.2.4
   '@types/minimatch': 3.0.5
-  '@umijs/test': 4.0.0
+  '@umijs/test': 4.0.2
   '@zerollup/ts-transform-paths': 1.7.18_typescript@4.7.3
   husky: 8.0.1
   jest: 27.5.1_ts-node@10.8.1
@@ -1481,24 +1481,24 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
-  /@umijs/babel-preset-umi/4.0.0:
-    resolution: {integrity: sha512-fxFXtnSkJoIfUnzQDmUCKS1VpNAXKub2srNXgQoKaoBF4yN61koAl088pdRewdpwQw8j864TSUUyuXw05icH7A==}
+  /@umijs/babel-preset-umi/4.0.2:
+    resolution: {integrity: sha512-IRY+qnlE1E4e9oN/kL5smwUcWlKGvuRJfA7pa5o0O3oVebbgrmHrVy6Lgs6bFDykJ6euS2xN5C1gjrbNKkgAlw==}
     dependencies:
       '@babel/runtime': 7.17.9
       '@bloomberg/record-tuple-polyfill': 0.0.4
-      '@umijs/bundler-utils': 4.0.0
-      '@umijs/utils': 4.0.0
+      '@umijs/bundler-utils': 4.0.2
+      '@umijs/utils': 4.0.2
       core-js: 3.22.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@umijs/bundler-esbuild/4.0.0:
-    resolution: {integrity: sha512-SqdEELcKot5YZ4D0dkNLkmATJ/DHDUt0Gqnvyk33mUaWvNW7f6IlXMZHQl8K8uiTd7i4RyIJSJydUI/aN7saCA==}
+  /@umijs/bundler-esbuild/4.0.2:
+    resolution: {integrity: sha512-zUWOQiQZ4jJmgITzvbUlZDSvz1e0/H91iw9wydg4suzvl3ybCJ62HE5md3K87v+5KAxmvvTE7D6Qx5gfZDOL3g==}
     hasBin: true
     dependencies:
-      '@umijs/bundler-utils': 4.0.0
-      '@umijs/utils': 4.0.0
+      '@umijs/bundler-utils': 4.0.2
+      '@umijs/utils': 4.0.2
       enhanced-resolve: 5.9.3
       postcss: 8.4.14
       postcss-flexbugs-fixes: 5.0.2_postcss@8.4.14
@@ -1507,10 +1507,10 @@ packages:
       - supports-color
     dev: false
 
-  /@umijs/bundler-utils/4.0.0:
-    resolution: {integrity: sha512-15jPwzFrOvbd2OY4a5Ytv4MqNNacY6bThLPPHdmrxvOF0RUywGmC0XsOQbqIPyRqmhnO7i42260guzg0uHQ6kw==}
+  /@umijs/bundler-utils/4.0.2:
+    resolution: {integrity: sha512-JAtA4PMWewxVsqt6HPW5X0bCP1asirS/EVOu8KUL+s/J9S9aH9RV7iSU4d5DwbRZZs8obbri2WZ6yeIJP5ihzA==}
     dependencies:
-      '@umijs/utils': 4.0.0
+      '@umijs/utils': 4.0.2
       esbuild: 0.14.36
       regenerate-unicode-properties: 10.0.1
       spdy: 4.0.2
@@ -1518,8 +1518,8 @@ packages:
       - supports-color
     dev: false
 
-  /@umijs/bundler-webpack/4.0.0:
-    resolution: {integrity: sha512-ByW4Qc+ttlIobM131w68TWRgSnZp+TO3/zrT8LndVJm1uqhA4nVPhB/krPOH0RbEDVcpGyuYs6zg3z2tyruSXw==}
+  /@umijs/bundler-webpack/4.0.2:
+    resolution: {integrity: sha512-Kt5CS7D8yUN1VnWDMu61IPG9LhPks3t6vtlnAMu/ESP5dxM4Hv9XHc1h69kH+jOacXWcS8fJb3vU7U4pg1Llpg==}
     hasBin: true
     dependencies:
       '@parcel/css': 1.9.0
@@ -1528,10 +1528,10 @@ packages:
       '@svgr/plugin-jsx': 6.2.1_@svgr+core@6.2.1
       '@svgr/plugin-svgo': 6.2.0_@svgr+core@6.2.1
       '@types/hapi__joi': 17.1.8
-      '@umijs/babel-preset-umi': 4.0.0
-      '@umijs/bundler-utils': 4.0.0
-      '@umijs/mfsu': 4.0.0
-      '@umijs/utils': 4.0.0
+      '@umijs/babel-preset-umi': 4.0.2
+      '@umijs/bundler-utils': 4.0.2
+      '@umijs/mfsu': 4.0.2
+      '@umijs/utils': 4.0.2
       cors: 2.8.5
       css-loader: 6.7.1
       es5-imcompatible-versions: 0.1.73
@@ -1552,28 +1552,28 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@umijs/core/4.0.0:
-    resolution: {integrity: sha512-/O/hGo2CF5658jJV5EkGXHNeDqrQ8zpMzjzHosR5Z0oM+cm/s1eksBQyr+/yuSoXJeb+4HySJ1zQksOt2LTXfg==}
+  /@umijs/core/4.0.2:
+    resolution: {integrity: sha512-HkwuN9I+mpIEa66dyASTlb6evJ+ox5O+anVAwuhNgF754khhEh5REhgmc0Y+igbceK7I2ZWcqOLsEeD4db/uHA==}
     dependencies:
-      '@umijs/bundler-utils': 4.0.0
-      '@umijs/utils': 4.0.0
+      '@umijs/bundler-utils': 4.0.2
+      '@umijs/utils': 4.0.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@umijs/mfsu/4.0.0:
-    resolution: {integrity: sha512-9GW7M2lo6Z6osRcwEoVfgcQonJs4CayiJlJvV3G8Stq7/h44Ch+RWTIiYDP97bo0UTT2KDMlbxIMmOequpUvtQ==}
+  /@umijs/mfsu/4.0.2:
+    resolution: {integrity: sha512-kkNiWc4QuOgqSUkk7xKJE1fXTAnxMS2CxG7xEEZ/AiX5IZqk5HI802e3vbUWO5chJnqiievumEd7Qgfni7wozg==}
     dependencies:
-      '@umijs/bundler-esbuild': 4.0.0
-      '@umijs/bundler-utils': 4.0.0
-      '@umijs/utils': 4.0.0
+      '@umijs/bundler-esbuild': 4.0.2
+      '@umijs/bundler-utils': 4.0.2
+      '@umijs/utils': 4.0.2
       enhanced-resolve: 5.9.3
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@umijs/test/4.0.0:
-    resolution: {integrity: sha512-ylu4B14xPmbcFwH9lu+RGhRGU60USY6wg/dl7PEHGKvrkr0NFV7VTcXH05KvmM3ADAwgfXa+MOKWoNWPJ6Fwaw==}
+  /@umijs/test/4.0.2:
+    resolution: {integrity: sha512-GrakC7hap2EtbwDlVLPoOrXQzouNcRY15phwGibx7C9HY1VrIEiWOvjohYnDsnrXCCwjsloJN3veaDDTaB9GgQ==}
     dependencies:
       '@jest/types': 27.5.1
       esbuild: 0.14.36
@@ -1585,8 +1585,8 @@ packages:
       - supports-color
     dev: true
 
-  /@umijs/utils/4.0.0:
-    resolution: {integrity: sha512-lc92gfBerDoaOjAyOFW3UxyjKnf6AHf9PmwnHzMf1F7VK7LK147Gy1/dhMvafKh93pJqx+2zi0bAfpwV6ZPFjQ==}
+  /@umijs/utils/4.0.2:
+    resolution: {integrity: sha512-YL0/9NSxmtJQb2a2/A03xVjOrEP0rZSRI5KjW2O3pWylKX6HK+pKDbalzx1GHjUj4OWRAUejXpz2Yv8uDIpRzg==}
     dependencies:
       chokidar: 3.5.3
       pino: 7.11.0
@@ -3736,7 +3736,7 @@ packages:
     dev: false
 
   /identity-obj-proxy/3.0.0:
-    resolution: {integrity: sha1-lNK9qWCERT7zb7xarsN+D3nx/BQ=}
+    resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
     engines: {node: '>=4'}
     dependencies:
       harmony-reflect: 1.6.2
@@ -5007,7 +5007,7 @@ packages:
     dev: true
 
   /ms/2.0.0:
-    resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}
+    resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: true
 
   /ms/2.1.2:
@@ -6505,6 +6505,7 @@ packages:
 
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
+    deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
     dev: false
 
   /stack-utils/2.0.5:
