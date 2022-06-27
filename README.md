@@ -102,7 +102,6 @@ $ redbud version
 ┃　　┣ ━ preset.ts
 ┃　　┣ ━ registerMethods.ts
 ┃　　┗ ━ types.ts
-
 ┣ ━ test 测试相关
 ┣ ━ .editorconfig
 ┣ ━ .gitignore
