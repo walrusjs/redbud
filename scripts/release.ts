@@ -122,14 +122,14 @@ const pkgs = ['.', 'boilerplate'];
   );
 
   // sync tnpm
-  logger.event('sync tnpm');
-  $.verbose = false;
-  await Promise.all(
-    pkgs.map(async (pkg) => {
-      const { name } = require(path.join(pkg, 'package.json'));
-      logger.info(`sync ${name}`);
-      await $`tnpm sync ${name}`;
-    }),
-  );
-  $.verbose = true;
+  // logger.event('sync tnpm');
+  // $.verbose = false;
+  // await Promise.all(
+  //   pkgs.map(async (pkg) => {
+  //     const { name } = require(path.join(pkg, 'package.json'));
+  //     logger.info(`sync ${name}`);
+  //     await $`tnpm sync ${name}`;
+  //   }),
+  // );
+  // $.verbose = true;
 })();
