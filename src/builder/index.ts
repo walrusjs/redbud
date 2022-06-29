@@ -62,7 +62,6 @@ async function builder(
     opts.pkg,
     opts.cwd,
   );
-
   const outputs = getProviderOutputs(configProviders);
   const watchers: chokidar.FSWatcher[] = [];
 

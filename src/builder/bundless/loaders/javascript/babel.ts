@@ -27,7 +27,6 @@ const babelTransformer: JSTransformer = function (content) {
     define,
     alias: oAlias = {},
   } = this.config;
-
   // TODO: correct optional in umi types and replace any here
   const presetOpts: any = {
     presetEnv: {

@@ -1,7 +1,7 @@
 import type { Compiler } from '@umijs/bundler-webpack';
 import type Autoprefixer from '@umijs/bundler-webpack/compiled/autoprefixer';
 import type IWebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
-import type { IConfig as IBundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
+import type { IConfig as BundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
 import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
 import type { TransformerItem } from './builder/bundless/loaders/javascript';
 
@@ -56,24 +56,14 @@ export interface RedbudBaseConfig {
   alias?: Record<string, string>;
 
   /**
-   * configure postcss
-   */
-  postcssOptions?: IBundlerWebpackConfig['postcssLoader'];
-
-  /**
-   * configure autoprefixer
-   */
-  autoprefixer?: Autoprefixer.Options;
-
-  /**
    * configure extra babel presets
    */
-  extraBabelPresets?: IBundlerWebpackConfig['extraBabelPresets'];
+  extraBabelPresets?: BundlerWebpackConfig['extraBabelPresets'];
 
   /**
    * configure extra babel plugins
    */
-  extraBabelPlugins?: IBundlerWebpackConfig['extraBabelPlugins'];
+  extraBabelPlugins?: BundlerWebpackConfig['extraBabelPlugins'];
 }
 
 export interface RedbudBundlessConfig extends RedbudBaseConfig {
@@ -90,7 +80,7 @@ export interface RedbudBundlessConfig extends RedbudBaseConfig {
 
   /**
    * specific transformer
-   * @note  redbud will auto-select transformer by default (babel for browser files, esbuild for node files)
+   * @note redbud will auto-select transformer by default (babel for browser files, esbuild for node files)
    */
   transformer?: `${RedbudJSTransformerTypes}`;
 
@@ -137,6 +127,16 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
     memo: IWebpackChain,
     args: { env: string; webpack: Compiler['webpack'] },
   ) => IWebpackChain;
+
+  /**
+   * configure postcss
+   */
+  postcssOptions?: BundlerWebpackConfig['postcssLoader'];
+
+  /**
+   * configure autoprefixer
+   */
+  autoprefixer?: Autoprefixer.Options;
 }
 
 export interface RedbudPreBundleConfig {

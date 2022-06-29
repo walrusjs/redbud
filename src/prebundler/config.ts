@@ -59,37 +59,8 @@ function getTypeInfoForPkg(pkgPath: string) {
 }
 
 /**
- * get package.json path for dependency
- * @see https://github.com/nodejs/node/issues/33460
+ * get dts rollup config
  */
-function getDepPkgPath(dep: string, cwd: string) {
-  return pkgUp.pkgUpSync({ cwd: require.resolve(dep, { paths: [cwd] }) })!;
-}
-
-/**
- * get relative externals for specific pre-bundle pkg from other pre-bundle deps
- * @note  for example, "compiled/a" can be externalized in "compiled/b" as "../a"
- */
-function getRltExternalsFromDeps(
-  depExternals: Record<string, string>,
-  current: { name: string; output: string },
-) {
-  return Object.entries(depExternals).reduce<Record<string, string>>(
-    (r, [dep, target]) => {
-      // skip self
-      if (dep !== current.name) {
-        // transform dep externals path to relative path
-        r[dep] = winPath(
-          path.relative(path.dirname(current.output), path.dirname(target)),
-        );
-      }
-
-      return r;
-    },
-    {},
-  );
-}
-
 function getDtsConfig(opts: {
   cwd: string;
   pkgPath: string;
@@ -139,6 +110,38 @@ function getDtsConfig(opts: {
     maeConfig: undefined as any,
     externals: undefined as any,
   };
+}
+
+/**
+ * get package.json path for dependency
+ * @see https://github.com/nodejs/node/issues/33460
+ */
+function getDepPkgPath(dep: string, cwd: string) {
+  return pkgUp.pkgUpSync({ cwd: require.resolve(dep, { paths: [cwd] }) })!;
+}
+
+/**
+ * get relative externals for specific pre-bundle pkg from other pre-bundle deps
+ * @note  for example, "compiled/a" can be externalized in "compiled/b" as "../a"
+ */
+function getRltExternalsFromDeps(
+  depExternals: Record<string, string>,
+  current: { name: string; output: string },
+) {
+  return Object.entries(depExternals).reduce<Record<string, string>>(
+    (r, [dep, target]) => {
+      // skip self
+      if (dep !== current.name) {
+        // transform dep externals path to relative path
+        r[dep] = winPath(
+          path.relative(path.dirname(current.output), path.dirname(target)),
+        );
+      }
+
+      return r;
+    },
+    {},
+  );
 }
 
 export function getConfig(opts: {

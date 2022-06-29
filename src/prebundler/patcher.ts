@@ -4,6 +4,7 @@
  * @solution hack tsHost.readFile for the CompilerState of api-extractor
  *           to replace legacy export = syntax to esm syntax
  */
+
 import { CompilerState, Extractor } from '@microsoft/api-extractor';
 import type { Collector } from '@microsoft/api-extractor/lib/collector/Collector';
 import {
