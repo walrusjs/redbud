@@ -37,7 +37,12 @@ const babelTransformer: JSTransformer = function (content) {
       modules: this.config.format === RedbudBundlessTypes.ESM ? false : 'auto',
     },
     presetReact: {},
-    presetTypeScript: {},
+    presetTypeScript: {
+      // TODO: remove this after Umi released
+      // ref: https://github.com/umijs/umi/pull/8289
+      // remove all type imports, to avoid import resolve error in dist files
+      onlyRemoveTypeImports: false,
+    },
   };
 
   // transform alias to relative path for babel-plugin-module-resolver

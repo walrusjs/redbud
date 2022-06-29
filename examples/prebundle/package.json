@@ -1,10 +1,11 @@
 {
   "scripts": {
-    "build:deps": "../../bin/redbud.js prebundle"
+    "build:deps": "redbud prebundle"
   },
   "devDependencies": {
     "@types/minimatch": "3.0.5",
     "minimatch": "3.1.2",
+    "redbud": "workspace:*",
     "rimraf": "3.0.2"
   }
 }

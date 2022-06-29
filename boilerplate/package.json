@@ -1,0 +1,33 @@
+{
+  "name": "create-redbud",
+  "version": "1.0.0-beta.5",
+  "description": "Creator for redbud boilerplate",
+  "homepage": "https://github.com/walrusjs/redbud/tree/master/boilerplate#readme",
+  "bugs": "https://github.com/walrusjs/redbud/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walrusjs/redbud"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "create-redbud": "bin/create-redbud.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm tsc",
+    "dev": "pnpm tsc --watch"
+  },
+  "dependencies": {
+    "@umijs/utils": "^4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "wangxingkang <wangxingkang@qq.com> (https://github.com/wangxingkang)"
+  ]
+}
