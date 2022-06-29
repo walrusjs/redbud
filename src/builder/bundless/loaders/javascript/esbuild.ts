@@ -1,7 +1,7 @@
-import path from 'path';
-import { winPath } from '@umijs/utils';
 import { build } from '@umijs/bundler-utils/compiled/esbuild';
-import { RedbudPlatformTypes, RedbudBundlessConfig } from '../../../../types';
+import { winPath } from '@umijs/utils';
+import path from 'path';
+import { RedbudBundlessConfig, RedbudPlatformTypes } from '../../../../types';
 import type { JSTransformer } from '../types';
 
 /**
@@ -53,6 +53,7 @@ const esbuildTransformer: JSTransformer = async function () {
     bundle: true,
     format: this.config.format,
     define: this.config.define,
+    platform: this.config.platform,
     target:
       this.config.platform === RedbudPlatformTypes.NODE ? 'node14' : 'es6',
     // esbuild need relative entry path

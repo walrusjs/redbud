@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "../../bin/redbud.js build",
+    "build:no-clean": "../../bin/redbud.js build --no-clean",
+    "version": "../../bin/redbud.js version"
+  },
+  "dependencies": {
+    "redbud": "link:..\\.."
+  }
+}

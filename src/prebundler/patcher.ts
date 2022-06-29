@@ -4,24 +4,30 @@
  * @solution hack tsHost.readFile for the CompilerState of api-extractor
  *           to replace legacy export = syntax to esm syntax
  */
-
-import { Extractor, CompilerState } from '@microsoft/api-extractor';
+import { CompilerState, Extractor } from '@microsoft/api-extractor';
+import type { Collector } from '@microsoft/api-extractor/lib/collector/Collector';
+import {
+  DtsRollupGenerator,
+  DtsRollupKind,
+} from '@microsoft/api-extractor/lib/generators/DtsRollupGenerator';
+import { IndentedWriter } from '@microsoft/api-extractor/lib/generators/IndentedWriter';
 import { chalk, logger } from '@umijs/utils';
 import type { CompilerHost } from 'typescript';
+import { setSharedData } from './shared';
 
 // @ts-ignore
 const oCreateCompilerHost = CompilerState._createCompilerHost;
 
-if (!oCreateCompilerHost.name.includes('redbud')) {
+if (!oCreateCompilerHost.name.includes('father')) {
   // @ts-ignore
-  CompilerState._createCompilerHost = function _redbudHackCreateCompilerHost(
+  CompilerState._createCompilerHost = function _fatherHackCreateCompilerHost(
     ...args: any
   ) {
     const tsHost: CompilerHost = oCreateCompilerHost.apply(CompilerState, args);
     const oReadFile = tsHost.readFile;
 
     // hack readFile method to replace legacy export = syntax to esm
-    tsHost.readFile = function redbudHackReadFile(...args) {
+    tsHost.readFile = function fatherHackReadFile(...args) {
       let content = oReadFile.apply(tsHost, args);
       // regexp to match export = [Symbol];
       const legacyExportReg = /[\r\n]export\s+=\s+([\w$]+)\s*([;\r\n])/;
@@ -39,7 +45,7 @@ if (!oCreateCompilerHost.name.includes('redbud')) {
           logger.warn(
             `Unhandled legacy export syntax in ${chalk.gray(
               args[0],
-            )}, please report this issue to redbud if the d.ts file is unexpected.`,
+            )}, please report this issue to father if the d.ts file is unexpected.`,
           );
         }
       }
@@ -53,5 +59,20 @@ if (!oCreateCompilerHost.name.includes('redbud')) {
   // disable typescript version checking logic to omit the log
   // because api-extractor builtin typescript is not latest
   // @ts-ignore
-  Extractor._checkCompilerCompatibility = function redbudHackEmpty() {};
+  Extractor._checkCompilerCompatibility = function fatherHackEmpty() {};
+
+  // hijack write file logic
+  DtsRollupGenerator.writeTypingsFile = function fatherHackWriteTypingsFile(
+    collector: Collector,
+    dtsFilename: string,
+    dtsKind: DtsRollupKind,
+  ) {
+    const writer: IndentedWriter = new IndentedWriter();
+    writer.trimLeadingSpaces = true;
+
+    // @ts-ignore
+    DtsRollupGenerator._generateTypingsFileContent(collector, writer, dtsKind);
+
+    setSharedData(dtsFilename, writer.toString());
+  };
 }

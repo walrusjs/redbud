@@ -1,8 +1,8 @@
-import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
-import type { IConfig as IBundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
+import type { Compiler } from '@umijs/bundler-webpack';
 import type Autoprefixer from '@umijs/bundler-webpack/compiled/autoprefixer';
 import type IWebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
-import type { Compiler } from '@umijs/bundler-webpack';
+import type { IConfig as IBundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
+import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
 import type { TransformerItem } from './builder/bundless/loaders/javascript';
 
 export type {
@@ -156,7 +156,7 @@ export interface RedbudPreBundleConfig {
    * extra dependencies & declarations need to be externalized
    * @note  all deps & package.json dependencies will be added to externals by default
    */
-  extraExternals: Record<string, string>;
+  extraExternals?: Record<string, string>;
 }
 
 export interface RedbudConfig extends RedbudBaseConfig {

@@ -1,6 +1,8 @@
-import path from 'path';
+import { logger, winPath } from '@umijs/utils';
 import { Minimatch } from 'minimatch';
-import { winPath } from '@umijs/utils';
+import path from 'path';
+import { loadConfig } from 'tsconfig-paths';
+import * as MappingEntry from 'tsconfig-paths/lib/mapping-entry';
 import {
   Api,
   RedbudBaseConfig,
@@ -52,14 +54,46 @@ function getAutoBundleFilename(pkgName?: string) {
 }
 
 /**
+ *
+ * convert alias from tsconfig paths
+ * @export
+ * @param {string} cwd
+ */
+export function convertAliasByTsconfigPaths(cwd: string) {
+  const config = loadConfig(cwd);
+  let alias: Record<string, string> = {};
+
+  if (config.resultType === 'success') {
+    const { absoluteBaseUrl, paths } = config;
+
+    let absolutePaths = MappingEntry.getAbsoluteMappingEntries(
+      absoluteBaseUrl,
+      paths,
+      true,
+    );
+
+    absolutePaths.forEach((entry) => {
+      const [physicalPathPattern] = entry.paths;
+      if (entry.pattern.endsWith('/*')) {
+        alias[entry.pattern.replace('/*', '')] = winPath(
+          physicalPathPattern,
+        ).replace('/*', '');
+      } else if (entry.pattern !== '*') {
+        alias[entry.pattern] = winPath(physicalPathPattern);
+      }
+    });
+  }
+
+  return alias;
+}
+
+/**
  * normalize user config to bundler configs
  * @param userConfig  config from user
  */
 export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
   const configs: IBuilderConfig[] = [];
   const { umd, esm, cjs, ...baseConfig } = userConfig;
-
-  // TODO: convert alias from tsconfig paths
 
   // normalize umd config
   if (umd) {
@@ -215,10 +249,29 @@ class Minimatcher {
   }
 
   match(filePath: string) {
-    return (
-      this.matcher!.match(filePath) &&
-      this.ignoreMatchers.every((m) => !m.match(filePath))
-    );
+    let flag = false;
+
+    // check input match
+    if (this.matcher!.match(filePath)) {
+      flag = true;
+
+      for (const m of this.ignoreMatchers) {
+        // mark flag false if filePath match ignore matcher
+        if (m.match(filePath)) {
+          flag = false;
+
+          // stop check if current ignore glob not start with "!"
+          // but for the negate glob, we should continue to find other negate glob which exclude current filePath
+          if (!m.negate) break;
+        } else if (m.negate) {
+          // stop check and mark flag true, if some negate glob exclude current filePath
+          flag = true;
+          break;
+        }
+      }
+    }
+
+    return flag;
   }
 }
 
@@ -280,14 +333,22 @@ export class BundlessConfigProvider extends ConfigProvider {
 export function createConfigProviders(
   userConfig: RedbudConfig,
   pkg: Api['pkg'],
+  cwd: string,
 ) {
   const providers: {
     bundless: { esm?: BundlessConfigProvider; cjs?: BundlessConfigProvider };
     bundle?: BundleConfigProvider;
   } = { bundless: {} };
   const configs = normalizeUserConfig(userConfig, pkg);
+
+  // convert alias from tsconfig paths
+  const alias = convertAliasByTsconfigPaths(cwd);
+  logger.debug('Convert alias from tsconfig.json:', alias);
+
   const { bundle, bundless } = configs.reduce(
     (r, config) => {
+      config.alias = { ...alias, ...config.alias };
+
       if (config.type === RedbudBuildTypes.BUNDLE) {
         r.bundle.push(config);
       } else if (config.type === RedbudBuildTypes.BUNDLESS) {

@@ -1,5 +1,5 @@
+import { chokidar, logger, rimraf } from '@umijs/utils';
 import path from 'path';
-import { chokidar, rimraf, logger } from '@umijs/utils';
 import { Api, RedbudConfig } from '../types';
 import bundle from './bundle';
 import bundless from './bundless';
@@ -56,7 +56,13 @@ async function builder(
       ...opts.userConfig.alias,
     };
   }
-  const configProviders = createConfigProviders(opts.userConfig, opts.pkg);
+
+  const configProviders = createConfigProviders(
+    opts.userConfig,
+    opts.pkg,
+    opts.cwd,
+  );
+
   const outputs = getProviderOutputs(configProviders);
   const watchers: chokidar.FSWatcher[] = [];
 

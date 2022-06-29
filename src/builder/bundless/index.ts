@@ -1,24 +1,26 @@
 import {
   chalk,
   chokidar,
+  debug,
   glob,
   lodash,
   logger,
   rimraf,
   winPath,
-  debug,
 } from '@umijs/utils';
 import fs from 'fs';
 import path from 'path';
-import { WATCH_DEBOUNCE_STEP, DEBUG_BUNDLESS_NAME } from '../../constants';
+import { DEBUG_BUNDLESS_NAME, WATCH_DEBOUNCE_STEP } from '../../constants';
+import type { BundlessConfigProvider } from '../config';
 import getDeclarations from './dts';
 import runLoaders from './loaders';
-import type { BundlessConfigProvider } from '../config';
 
 const debugLog = debug(DEBUG_BUNDLESS_NAME);
 
 const DEFAULT_BUNDLESS_IGNORES = [
   '**/*.md',
+  '**/*.d.ts',
+  '**/fixtures/**',
   '**/__{test,tests}__/**',
   '**/*.{test,e2e,spec}.{js,jsx,ts,tsx}',
 ];
