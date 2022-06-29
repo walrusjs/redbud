@@ -1,4 +1,4 @@
-import * as logger from '@umijs/utils/dist/logger';
+import { logger } from '@umijs/utils';
 import assert from 'assert';
 import getGitRepoInfo from 'git-repo-info';
 import { join } from 'path';
@@ -35,7 +35,7 @@ const pkgs = ['.', 'boilerplate'];
   logger.event('check npm ownership');
   const whoami = (await $`npm whoami`).stdout.trim();
   await Promise.all(
-    ['father', 'create-father'].map(async (pkg) => {
+    ['redbud', 'create-redbud'].map(async (pkg) => {
       const owners = (await $`npm owner ls ${pkg}`).stdout
         .trim()
         .split('\n')
