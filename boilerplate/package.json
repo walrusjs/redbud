@@ -15,7 +15,8 @@
     "create-redbud": "bin/create-redbud.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "template"
   ],
   "scripts": {
     "build": "pnpm tsc",
