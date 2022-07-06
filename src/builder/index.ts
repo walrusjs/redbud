@@ -45,6 +45,18 @@ function builder(
 async function builder(
   opts: BuilderOpts & { watch?: true },
 ): Promise<WatchBuilderResult | void> {
+  // add default alias
+  if (opts.userConfig?.alias) {
+    opts.userConfig.alias = {
+      '@': path.resolve(opts.cwd, './src'),
+    };
+  } else {
+    opts.userConfig.alias = {
+      '@': path.resolve(opts.cwd, './src'),
+      ...opts.userConfig.alias,
+    };
+  }
+
   const configProviders = createConfigProviders(
     opts.userConfig,
     opts.pkg,
