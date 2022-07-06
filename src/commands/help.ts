@@ -47,7 +47,7 @@ ${getDeps(commands)}
   );
   console.log(
     `Visit ${chalk.bold(
-      'https://github.com/umijs/redbud-next',
+      'https://github.com/walrusjs/redbud',
     )} to learn more about redbud.`,
   );
 }

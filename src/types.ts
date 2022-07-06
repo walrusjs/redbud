@@ -1,6 +1,6 @@
 import type { Compiler } from '@umijs/bundler-webpack';
 import type Autoprefixer from '@umijs/bundler-webpack/compiled/autoprefixer';
-import type IWebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
+import type WebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
 import type { IConfig as BundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
 import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
 import type { TransformerItem } from './builder/bundless/loaders/javascript';
@@ -124,9 +124,9 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
    * modify webpack config via webpack-chain
    */
   chainWebpack?: (
-    memo: IWebpackChain,
+    memo: WebpackChain,
     args: { env: string; webpack: Compiler['webpack'] },
-  ) => IWebpackChain;
+  ) => WebpackChain;
 
   /**
    * configure postcss
@@ -141,11 +141,14 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
 
 export interface RedbudPreBundleConfig {
   /**
+   * output directory
+   * @default compiled
+   */
+  output?: string;
+  /**
    * dependencies or entries need to be pre-bundled
    */
-  deps:
-    | string[]
-    | Record<string, { output?: string; minify?: boolean; dts?: boolean }>;
+  deps: string[] | Record<string, { minify?: boolean; dts?: boolean }>;
 
   /**
    * extra dep declarations need to be pre-bundled

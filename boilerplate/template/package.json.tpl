@@ -25,6 +25,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "father": "{{{ version }}}"
+    "redbud": "{{{ version }}}"
   }
 }

@@ -2,9 +2,14 @@ import {
   ExtractorConfig,
   IExtractorConfigPrepareOptions,
 } from '@microsoft/api-extractor';
-import { pkgUp, winPath } from '@umijs/utils';
+import { winPath } from '@umijs/utils';
 import path from 'path';
 import { Api, RedbudPreBundleConfig } from '../types';
+import {
+  getDepPkgPath,
+  getDtsInfoForPkgPath,
+  getNestedDepsForPkg,
+} from '../utils';
 
 interface PreBundleConfig {
   deps: Record<string, { pkg: Api['pkg']; output: string; nccConfig: any }>;
@@ -21,42 +26,6 @@ interface PreBundleConfig {
 }
 
 const DEFAULT_OUTPUT_DIR = './compiled';
-
-/**
- * return type field value for pkg
- */
-function getTypeFieldForPkg(pkg: Api['pkg']): string | undefined {
-  return pkg.type || pkg.types || pkg.typing || pkg.typings;
-}
-
-/**
- * get type info for pkg or @types/pkg
- */
-function getTypeInfoForPkg(pkgPath: string) {
-  const pkg = require(pkgPath);
-  const info = { pkgPath: pkgPath, dtsPath: getTypeFieldForPkg(pkg)! };
-
-  if (info.dtsPath) {
-    // resolve builtin types
-    info.dtsPath = path.resolve(path.dirname(pkgPath), info.dtsPath);
-  } else {
-    // resolve @types/xxx pkg
-    try {
-      info.pkgPath = require.resolve(
-        `@types/${pkg.name.replace('@', '').replace('/', '__')}/package.json`,
-        { paths: [pkgPath] },
-      );
-      info.dtsPath = path.resolve(
-        path.dirname(info.pkgPath),
-        getTypeFieldForPkg(require(info.pkgPath))!,
-      );
-    } catch {
-      return null;
-    }
-  }
-
-  return info;
-}
 
 /**
  * get dts rollup config
@@ -113,14 +82,6 @@ function getDtsConfig(opts: {
 }
 
 /**
- * get package.json path for dependency
- * @see https://github.com/nodejs/node/issues/33460
- */
-function getDepPkgPath(dep: string, cwd: string) {
-  return pkgUp.pkgUpSync({ cwd: require.resolve(dep, { paths: [cwd] }) })!;
-}
-
-/**
  * get relative externals for specific pre-bundle pkg from other pre-bundle deps
  * @note  for example, "compiled/a" can be externalized in "compiled/b" as "../a"
  */
@@ -155,7 +116,12 @@ export function getConfig(opts: {
   ).reduce((r, dep) => ({ ...r, [dep]: dep }), {});
   const depExternals: RedbudPreBundleConfig['extraExternals'] = {};
   const config: PreBundleConfig = { deps: {}, dts: {} };
-  const { deps, extraExternals = {}, extraDtsDeps = [] } = opts.userConfig;
+  const {
+    output,
+    deps = [],
+    extraExternals = {},
+    extraDtsDeps = [],
+  } = opts.userConfig;
 
   // process deps config
   Object.entries(deps).forEach(([dep, depConfig]) => {
@@ -166,7 +132,7 @@ export function getConfig(opts: {
     const depEntryPath = require.resolve(depName, { paths: [opts.cwd] });
     const depPkgPath = getDepPkgPath(depName, opts.cwd);
     const depTypeInfo =
-      depConfig.dts !== false ? getTypeInfoForPkg(depPkgPath) : null;
+      depConfig.dts !== false ? getDtsInfoForPkgPath(depPkgPath) : null;
     const depPkg = require(depPkgPath);
 
     // generate bundle config
@@ -180,7 +146,7 @@ export function getConfig(opts: {
       pkg: depPkg,
       output: path.resolve(
         opts.cwd,
-        depConfig.output || `${DEFAULT_OUTPUT_DIR}/${depPkg.name}/index.js`,
+        `${output || DEFAULT_OUTPUT_DIR}/${depPkg.name}/index.js`,
       ),
     };
 
@@ -205,7 +171,7 @@ export function getConfig(opts: {
 
   // process extraDtsDeps config
   extraDtsDeps.forEach((pkg) => {
-    const depTypeInfo = getTypeInfoForPkg(getDepPkgPath(pkg, opts.cwd));
+    const depTypeInfo = getDtsInfoForPkgPath(getDepPkgPath(pkg, opts.cwd));
 
     if (depTypeInfo) {
       config.dts[depTypeInfo.dtsPath] = getDtsConfig({
@@ -242,13 +208,12 @@ export function getConfig(opts: {
     });
 
     // always skip bundle external pkgs
-    dtsConfig._maePrepareConfig.configObject.bundledPackages = Object.keys(
-      dtsConfig.pkg.dependencies || {},
-    ).filter((name) => {
-      name = name.replace('@types/', '');
-
-      return !depExternals[name] && !extraExternals[name];
+    const nestedDeps = getNestedDepsForPkg(dtsConfig.pkg.name!, opts.cwd, {
+      ...depExternals,
+      ...extraExternals,
     });
+    dtsConfig._maePrepareConfig.configObject.bundledPackages =
+      Object.keys(nestedDeps).slice(1);
 
     // prepare externals config
     dtsConfig.externals = {

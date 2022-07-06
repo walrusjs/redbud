@@ -1,5 +1,5 @@
 export default {
   prebundle: {
-    deps: ['@vercel/ncc'],
+    deps: ['rimraf'],
   },
 };

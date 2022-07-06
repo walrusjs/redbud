@@ -1,4 +1,4 @@
-import type { Root, SchemaLike } from '@umijs/utils/compiled/@hapi/joi';
+import type { Root, SchemaLike } from '@umijs/core/compiled/@hapi/joi';
 import { RedbudPlatformTypes } from '../../types';
 
 function getCommonSchemas(): Record<string, (Joi: Root) => any> {
@@ -56,6 +56,7 @@ export function getSchemas(): Record<string, (Joi: Root) => any> {
       }),
     prebundle: (Joi) =>
       Joi.object({
+        output: Joi.string(),
         deps: Joi.alternatives()
           .try(Joi.array().items(Joi.string()), Joi.object())
           .optional(),
