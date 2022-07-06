@@ -75,12 +75,28 @@ $ pnpm i redbud -D
 $ redbud version
 ```
 
+### dev
+
+执行全量构建并 watch 变更做增量构建，仅支持 esm/cjs 产物
+
+```bash
+$ redbud dev
+```
+
 ### build
 
-查看 `redbud` 的版本
+执行全量构建
 
 ```bash
 $ redbud build
+```
+
+### prebundle
+
+执行依赖预打包
+
+```bash
+$ redbud prebundle
 ```
 
 ## 配置
