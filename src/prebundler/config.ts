@@ -8,7 +8,7 @@ import { Api, RedbudPreBundleConfig } from '../types';
 import {
   getDepPkgPath,
   getDtsInfoForPkgPath,
-  getNestedDepsForPkg,
+  getNestedTypeDepsForPkg,
 } from '../utils';
 
 interface PreBundleConfig {
@@ -115,6 +115,7 @@ export function getConfig(opts: {
     Object.assign({}, opts.pkg.dependencies, opts.pkg.peerDependencies),
   ).reduce((r, dep) => ({ ...r, [dep]: dep }), {});
   const depExternals: RedbudPreBundleConfig['extraExternals'] = {};
+  const dtsDepExternals: RedbudPreBundleConfig['extraExternals'] = {};
   const config: PreBundleConfig = { deps: {}, dts: {} };
   const {
     output,
@@ -183,6 +184,8 @@ export function getConfig(opts: {
           `${DEFAULT_OUTPUT_DIR}/${pkg}/index.d.ts`,
         ),
       });
+
+      dtsDepExternals[pkg] = config.dts[depTypeInfo.dtsPath].output;
     }
   });
 
@@ -202,18 +205,26 @@ export function getConfig(opts: {
 
   // process externals for dts
   Object.values(config.dts).forEach((dtsConfig) => {
-    const rltDepExternals = getRltExternalsFromDeps(depExternals, {
-      name: dtsConfig.pkg.name!,
-      output: dtsConfig.output,
-    });
+    const rltDepExternals = getRltExternalsFromDeps(
+      {
+        ...depExternals,
+        ...dtsDepExternals,
+      },
+      {
+        name: dtsConfig.pkg.name!,
+        output: dtsConfig.output,
+      },
+    );
 
     // always skip bundle external pkgs
-    const nestedDeps = getNestedDepsForPkg(dtsConfig.pkg.name!, opts.cwd, {
+    const nestedDeps = getNestedTypeDepsForPkg(dtsConfig.pkg.name!, opts.cwd, {
+      ...pkgExternals,
       ...depExternals,
+      ...dtsDepExternals,
       ...extraExternals,
     });
     dtsConfig._maePrepareConfig.configObject.bundledPackages =
-      Object.keys(nestedDeps).slice(1);
+      Object.keys(nestedDeps);
 
     // prepare externals config
     dtsConfig.externals = {

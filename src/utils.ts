@@ -10,6 +10,20 @@ export function getTypeFromPkgJson(pkg: Api['pkg']): string | undefined {
 }
 
 /**
+ * restore xxx for @types/xxx
+ */
+export function getPkgNameFromTypesOrg(name: string) {
+  return name.replace('@types/', '').replace(/^([^]+?)__([^]+)$/, '@$1/$2');
+}
+
+/**
+ * get @types/xxx for xxx
+ */
+export function getPkgNameWithTypesOrg(name: string) {
+  return `@types/${name.replace('@', '').replace('/', '__')}`;
+}
+
+/**
  * get d.ts file path and package path for NPM package.json path
  */
 export function getDtsInfoForPkgPath(pkgPath: string) {
@@ -23,8 +37,10 @@ export function getDtsInfoForPkgPath(pkgPath: string) {
     // resolve @types/xxx pkg
     try {
       info.pkgPath = require.resolve(
-        `@types/${pkg.name.replace('@', '').replace('/', '__')}/package.json`,
-        { paths: [pkgPath] },
+        `${getPkgNameWithTypesOrg(pkg.name)}/package.json`,
+        {
+          paths: [pkgPath],
+        },
       );
       info.dtsPath = path.resolve(
         path.dirname(info.pkgPath),
@@ -43,29 +59,43 @@ export function getDtsInfoForPkgPath(pkgPath: string) {
  * @see https://github.com/nodejs/node/issues/33460
  */
 export function getDepPkgPath(dep: string, cwd: string) {
-  return pkgUp.pkgUpSync({
-    cwd: require.resolve(`${dep}/package.json`, { paths: [cwd] }),
-  })!;
+  try {
+    return require.resolve(`${dep}/package.json`, { paths: [cwd] });
+  } catch {
+    return pkgUp.pkgUpSync({
+      cwd: require.resolve(dep, { paths: [cwd] }),
+    })!;
+  }
 }
 
 /**
- * get all nested dependencies for specific NPM package
+ * get all nested type dependencies for specific NPM package
  */
-export function getNestedDepsForPkg(
+export function getNestedTypeDepsForPkg(
   name: string,
   cwd: string,
   externals: Record<string, string>,
-  deps: Record<string, string> = {},
+  deps?: Record<string, string>,
 ) {
-  if (name in deps || externals[name]) return deps;
+  const isWithinTypes = name.startsWith('@types/');
+  const pkgName = isWithinTypes ? getPkgNameFromTypesOrg(name) : name;
+  const typesPkgName = isWithinTypes ? name : getPkgNameWithTypesOrg(name);
+  const isCollected =
+    deps?.hasOwnProperty(name) || deps?.hasOwnProperty(typesPkgName);
+  const isExternalized = externals[pkgName] || externals[typesPkgName];
 
-  const pkgPath = getDepPkgPath(name, cwd);
-  const pkgJson = require(pkgPath);
-  const pkgDeps: typeof deps = pkgJson.dependencies || {};
+  if (deps && (isCollected || isExternalized)) return deps;
 
-  deps[name] = pkgJson.version;
-  Object.keys(pkgDeps).forEach((name) => {
-    getNestedDepsForPkg(name, pkgPath, externals, deps);
+  const isTopLevel = !deps;
+  const dtsInfo = getDtsInfoForPkgPath(getDepPkgPath(name, cwd));
+  const pkgJson = dtsInfo ? require(dtsInfo.pkgPath) : {};
+  const pkgDeps: NonNullable<typeof deps> = pkgJson.dependencies || {};
+
+  // collect nested packages and exclude self
+  deps ??= {};
+  Object.assign(deps, isTopLevel ? {} : { [pkgJson.name]: pkgJson.version });
+  Object.keys(pkgDeps).forEach((item) => {
+    getNestedTypeDepsForPkg(item, dtsInfo!.pkgPath, externals, deps);
   });
 
   return deps;
