@@ -21,7 +21,7 @@ const DEFAULT_BUNDLESS_IGNORES = [
   '**/*.md',
   '**/*.d.ts',
   '**/fixtures/**',
-  '**/__{test,tests}__/**',
+  '**/__{test,tests,snapshots}__/**',
   '**/*.{test,e2e,spec}.{js,jsx,ts,tsx}',
 ];
 
