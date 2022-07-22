@@ -8,20 +8,20 @@ import type { BundlessLoader, ILoaderOutput } from './types';
 /**
  * loader item type
  */
-export interface ILoaderItem {
+export interface LoaderItem {
   id: string;
   test: string | RegExp | ((path: string) => boolean);
   loader: string;
   options?: Record<string, any>;
 }
 
-const loaders: ILoaderItem[] = [];
+const loaders: LoaderItem[] = [];
 
 /**
  * add loader
  * @param item  loader item
  */
-export function addLoader(item: ILoaderItem) {
+export function addLoader(item: LoaderItem) {
   // only support simple test type currently, because the webpack condition is too complex
   // refer: https://github.com/webpack/webpack/blob/0f6c78cca174a73184fdc0d9c9c2bd376b48557c/lib/rules/RuleSetCompiler.js#L211
   if (
