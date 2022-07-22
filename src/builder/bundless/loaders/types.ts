@@ -27,6 +27,7 @@ export interface ILoaderContext {
 export type BundlessLoader = (
   this: Omit<ExtendedLoaderContext, 'async'> &
     ILoaderContext & {
+      cwd: string;
       /**
        * configure output options for current file
        */

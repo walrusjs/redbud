@@ -1,5 +1,5 @@
-import type { BundlessLoader, JSTransformer, ILoaderOutput } from '../types';
 import { getTsconfig } from '../../dts';
+import type { BundlessLoader, ILoaderOutput, JSTransformer } from '../types';
 
 const transformers: Record<string, JSTransformer> = {};
 
@@ -44,7 +44,7 @@ const jsLoader: BundlessLoader = function (content) {
       config: this.config,
       pkg: this.pkg,
       paths: {
-        cwd: this.context!,
+        cwd: this.cwd,
         fileAbsPath: this.resource,
       },
     },
