@@ -14,6 +14,7 @@ export default (api: Api) => {
         cwd: api.cwd,
         pkg: api.pkg,
         clean: args.clean,
+        quiet: args.quiet,
       });
     },
   });

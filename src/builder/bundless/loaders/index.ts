@@ -1,26 +1,27 @@
 import fs from 'fs';
 import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
+import { getCache } from '../../../utils';
 import type { IBundlessConfig } from '../../config';
 import type { BundlessLoader, ILoaderOutput } from './types';
 
 /**
  * loader item type
  */
-export interface LoaderItem {
+export interface ILoaderItem {
   id: string;
   test: string | RegExp | ((path: string) => boolean);
   loader: string;
   options?: Record<string, any>;
 }
 
-const loaders: LoaderItem[] = [];
+const loaders: ILoaderItem[] = [];
 
 /**
  * add loader
  * @param item  loader item
  */
-export function addLoader(item: LoaderItem) {
+export function addLoader(item: ILoaderItem) {
   // only support simple test type currently, because the webpack condition is too complex
   // refer: https://github.com/webpack/webpack/blob/0f6c78cca174a73184fdc0d9c9c2bd376b48557c/lib/rules/RuleSetCompiler.js#L211
   if (
@@ -42,6 +43,18 @@ export default async (
   fileAbsPath: string,
   opts: { config: IBundlessConfig; pkg: Api['pkg']; cwd: string },
 ) => {
+  const cache = getCache('loader');
+  // format: {path:mtime:config}
+  const cacheKey = [
+    fileAbsPath,
+    fs.statSync(fileAbsPath).mtimeMs,
+    JSON.stringify(opts.config),
+  ].join(':');
+  const cacheRet = await cache.get(cacheKey, '');
+
+  // use cache first
+  if (cacheRet) return Promise.resolve<ILoaderOutput>(cacheRet);
+
   // get matched loader by test
   const matched = loaders.find((item) => {
     switch (typeof item.test) {
@@ -81,10 +94,14 @@ export default async (
             reject(err);
           } else if (result) {
             // FIXME: handle buffer type?
-            resolve({
+            const ret = {
               content: result[0] as unknown as string,
               options: outputOpts,
-            });
+            };
+
+            // save cache then resolve
+            cache.set(cacheKey, ret);
+            resolve(ret);
           } else {
             resolve(void 0);
           }

@@ -5,3 +5,4 @@ export const WATCH_DEBOUNCE_STEP = 300;
 export const DEV_COMMAND = 'dev';
 export const BUILD_COMMANDS = ['build', 'prebundle'];
 export const DEBUG_BUNDLESS_NAME = 'redbud:bundless';
+export const CACHE_PATH = 'node_modules/.cache/redbud';
