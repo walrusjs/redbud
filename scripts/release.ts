@@ -1,4 +1,4 @@
-import { logger } from '@umijs/utils';
+import * as logger from '@umijs/utils/dist/logger';
 import assert from 'assert';
 import getGitRepoInfo from 'git-repo-info';
 import { join } from 'path';
@@ -6,6 +6,7 @@ import rimraf from 'rimraf';
 import 'zx/globals';
 
 const pkgs = ['.', 'boilerplate'];
+const noNextTagPkgs = ['boilerplate'];
 
 (async () => {
   const { branch } = getGitRepoInfo();
@@ -116,20 +117,10 @@ const pkgs = ['.', 'boilerplate'];
 
   await Promise.all(
     pkgs.map(async (pkg) => {
-      await $`cd ${pkg} && npm publish --tag ${tag} ${otpArg}`;
+      await $`cd ${pkg} && npm publish --tag ${
+        tag === 'next' && noNextTagPkgs.includes(pkg) ? 'latest' : tag
+      } ${otpArg}`;
       logger.info(`+ ${pkg}`);
     }),
   );
-
-  // sync tnpm
-  // logger.event('sync tnpm');
-  // $.verbose = false;
-  // await Promise.all(
-  //   pkgs.map(async (pkg) => {
-  //     const { name } = require(path.join(pkg, 'package.json'));
-  //     logger.info(`sync ${name}`);
-  //     await $`tnpm sync ${name}`;
-  //   }),
-  // );
-  // $.verbose = true;
 })();
