@@ -1,6 +1,6 @@
 {
   "name": "redbud",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
   "description": "A bundless/bundle build tool",
   "homepage": "https://github.com/walrusjs/redbud#readme",
   "bugs": {
