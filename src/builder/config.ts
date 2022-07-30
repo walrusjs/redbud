@@ -39,6 +39,7 @@ export interface IBundlessConfig
   type: RedbudBuildTypes.BUNDLESS;
   format: RedbudBundlessTypes;
   input: string;
+  output: NonNullable<RedbudBundleConfig['output']>;
 }
 
 /**
@@ -158,7 +159,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       formatName === 'esm'
         ? RedbudPlatformTypes.BROWSER
         : RedbudPlatformTypes.NODE;
-    const bundlessConfig: Omit<IBundlessConfig, 'input'> = {
+    const bundlessConfig: Omit<IBundlessConfig, 'input' | 'output'> = {
       type: RedbudBuildTypes.BUNDLESS,
       format: formatName as RedbudBundlessTypes,
       platform: userConfig.platform || defaultPlatform,

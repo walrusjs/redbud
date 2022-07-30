@@ -26,12 +26,12 @@ const mockExit = mockProcessExit();
 const CASES_DIR = path.join(__dirname, 'fixtures/config');
 
 beforeAll(() => {
-  process.env.FATHER_CACHE = 'none';
+  process.env.REDBUD_CACHE = 'none';
 });
 
 afterAll(() => {
   delete process.env.APP_ROOT;
-  delete process.env.FATHER_CACHE;
+  delete process.env.REDBUD_CACHE;
   mockExit.mockRestore();
 });
 test('config: cyclic extends', async () => {
@@ -39,7 +39,7 @@ test('config: cyclic extends', async () => {
   process.env.APP_ROOT = path.join(CASES_DIR, 'config-cyclic-extends');
 
   // workaround for get config file path
-  global.TMP_CASE_CONFIG = path.join(process.env.APP_ROOT, '.fatherrc.ts');
+  global.TMP_CASE_CONFIG = path.join(process.env.APP_ROOT, '.redbudrc.ts');
 
   await cli.run({
     args: { _: ['build'], $0: 'node' },

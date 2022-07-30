@@ -5,12 +5,12 @@ import { distToMap, getDirCases } from './utils';
 const CASES_DIR = path.join(__dirname, 'fixtures/build');
 
 beforeAll(() => {
-  process.env.FATHER_CACHE = 'none';
+  process.env.REDBUD_CACHE = 'none';
 });
 
 afterAll(() => {
   delete process.env.APP_ROOT;
-  delete process.env.FATHER_CACHE;
+  delete process.env.REDBUD_CACHE;
 });
 
 // generate cases

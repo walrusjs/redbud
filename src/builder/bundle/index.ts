@@ -2,6 +2,7 @@ import { chalk, importLazy, logger } from '@umijs/utils';
 import path from 'path';
 import { CACHE_PATH } from '../../constants';
 import type { BundleConfigProvider } from '../config';
+import { getBabelPresetReactOpts } from '../utils';
 
 const bundler: typeof import('@umijs/bundler-webpack') = importLazy(
   path.dirname(require.resolve('@umijs/bundler-webpack/package.json')),
@@ -11,6 +12,8 @@ export default async (opts: {
   cwd: string;
   configProvider: BundleConfigProvider;
 }) => {
+  const enableCache = process.env.REDBUD_CACHE !== 'none';
+
   for (const config of opts.configProvider.configs) {
     logger.info(
       `Bundle from ${chalk.yellow(config.entry)} to ${chalk.yellow(
@@ -48,6 +51,17 @@ export default async (opts: {
           config.entry,
         ),
       },
+      babelPreset: [
+        require.resolve('@umijs/babel-preset-umi'),
+        {
+          presetEnv: {},
+          presetReact: getBabelPresetReactOpts(opts.configProvider.pkg),
+          presetTypeScript: {},
+          pluginTransformRuntime: {},
+          pluginLockCoreJS: {},
+          pluginDynamicImportNode: false,
+        },
+      ],
       extraBabelPresets: config.extraBabelPresets,
       extraBabelPlugins: config.extraBabelPlugins,
 
@@ -60,18 +74,24 @@ export default async (opts: {
           memo.target('node');
         }
 
-        // use father version as cache version
-        memo.merge({
-          cache: { version: require('../../../package.json').version },
-        });
+        if (enableCache) {
+          // use redbud version as cache version
+          memo.merge({
+            cache: { version: require('../../../package.json').version },
+          });
+        }
 
         return memo;
       },
 
       // enable webpack persistent cache
-      cache: {
-        cacheDirectory: path.join(opts.cwd, CACHE_PATH, 'bundle-webpack'),
-      },
+      ...(enableCache
+        ? {
+            cache: {
+              cacheDirectory: path.join(opts.cwd, CACHE_PATH, 'bundle-webpack'),
+            },
+          }
+        : {}),
     });
   }
 };

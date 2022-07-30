@@ -1,7 +1,12 @@
 import { Api } from './types';
 
 export default (api: Api) => {
-  ['addJSTransformer'].forEach((name) => {
+  [
+    'addJSTransformer',
+    'addRegularCheckup',
+    'addSourceCheckup',
+    'addImportsCheckup',
+  ].forEach((name) => {
     api.registerMethod({ name });
   });
 };

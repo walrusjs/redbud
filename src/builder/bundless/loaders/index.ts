@@ -2,7 +2,7 @@ import fs from 'fs';
 import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
 import { getCache } from '../../../utils';
-import type { IBundlessConfig } from '../../config';
+import type { BundlessConfig } from '../../config';
 import type { BundlessLoader, ILoaderOutput } from './types';
 
 /**
@@ -41,7 +41,7 @@ export function addLoader(item: LoaderItem) {
  */
 export default async (
   fileAbsPath: string,
-  opts: { config: IBundlessConfig; pkg: Api['pkg']; cwd: string },
+  opts: { config: BundlessConfig; pkg: Api['pkg']; cwd: string },
 ) => {
   const cache = getCache('bundless-loader');
   // format: {path:mtime:config}

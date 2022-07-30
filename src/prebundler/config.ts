@@ -11,7 +11,7 @@ import {
   getNestedTypeDepsForPkg,
 } from '../utils';
 
-interface PreBundleConfig {
+export interface PreBundleConfig {
   deps: Record<string, { pkg: Api['pkg']; output: string; nccConfig: any }>;
   dts: Record<
     string,

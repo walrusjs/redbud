@@ -2,8 +2,12 @@ import type { Compiler } from '@umijs/bundler-webpack';
 import type Autoprefixer from '@umijs/bundler-webpack/compiled/autoprefixer';
 import type WebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
 import type { IConfig as BundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
-import type { IServicePluginAPI, PluginAPI } from '@umijs/core';
+import type { IAdd, IServicePluginAPI, PluginAPI } from '@umijs/core';
 import type { TransformerItem } from './builder/bundless/loaders/javascript';
+import type { BundleConfig, BundlessConfig } from './builder/config';
+import type { DoctorReport } from './doctor';
+import type { DoctorSourceParseResult } from './doctor/parser';
+import type { PreBundleConfig } from './prebundler/config';
 
 export type {
   BundlessLoader,
@@ -16,6 +20,34 @@ export type Api = PluginAPI &
      * add bundless js transformer
      */
     addJSTransformer: (item: TransformerItem) => void;
+
+    /**
+     * checkup for doctor
+     */
+    addRegularCheckup: IAdd<
+      {
+        bundleConfigs: BundleConfig[];
+        bundlessConfigs: BundlessConfig[];
+        preBundleConfig: PreBundleConfig;
+      },
+      DoctorReport | DoctorReport[0] | void
+    >;
+    addSourceCheckup: IAdd<
+      {
+        file: string;
+        content: string;
+      },
+      DoctorReport | DoctorReport[0] | void
+    >;
+    addImportsCheckup: IAdd<
+      {
+        file: string;
+        imports: DoctorSourceParseResult['imports'];
+        mergedAlias: Record<string, string[]>;
+        mergedExternals: Record<string, string>;
+      },
+      DoctorReport | DoctorReport[0] | void
+    >;
   };
 
 export enum RedbudBuildTypes {

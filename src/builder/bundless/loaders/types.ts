@@ -1,6 +1,6 @@
 import type { ExtendedLoaderContext } from 'loader-runner';
 import type { Api } from '../../../types';
-import type { IBundlessConfig } from '../../config';
+import type { BundlessConfig } from '../../config';
 
 export interface ILoaderOutput {
   content: string;
@@ -14,7 +14,7 @@ export interface ILoaderContext {
   /**
    * final bundless config
    */
-  config: IBundlessConfig;
+  config: BundlessConfig;
   /**
    * project package.json
    */
