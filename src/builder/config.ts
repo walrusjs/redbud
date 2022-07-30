@@ -18,7 +18,7 @@ import {
 /**
  * declare bundler config
  */
-export interface IBundleConfig
+export interface BundleConfig
   extends RedbudBaseConfig,
     Omit<RedbudBundleConfig, 'entry' | 'output'> {
   type: RedbudBuildTypes.BUNDLE;
@@ -33,7 +33,7 @@ export interface IBundleConfig
 /**
  * declare bundless config
  */
-export interface IBundlessConfig
+export interface BundlessConfig
   extends RedbudBaseConfig,
     Omit<RedbudBundlessConfig, 'input' | 'overrides'> {
   type: RedbudBuildTypes.BUNDLESS;
@@ -45,7 +45,7 @@ export interface IBundlessConfig
 /**
  * declare union builder config
  */
-export type IBuilderConfig = IBundleConfig | IBundlessConfig;
+export type IBuilderConfig = BundleConfig | BundlessConfig;
 
 /**
  * generate bundle filename by package name
@@ -104,7 +104,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
   // normalize umd config
   if (umd) {
     const entryConfig = umd.entry;
-    const bundleConfig: Omit<IBundleConfig, 'entry'> = {
+    const bundleConfig: Omit<BundleConfig, 'entry'> = {
       type: RedbudBuildTypes.BUNDLE,
       bundler: 'webpack',
       ...baseConfig,
@@ -159,7 +159,7 @@ export function normalizeUserConfig(userConfig: RedbudConfig, pkg: Api['pkg']) {
       formatName === 'esm'
         ? RedbudPlatformTypes.BROWSER
         : RedbudPlatformTypes.NODE;
-    const bundlessConfig: Omit<IBundlessConfig, 'input' | 'output'> = {
+    const bundlessConfig: Omit<BundlessConfig, 'input' | 'output'> = {
       type: RedbudBuildTypes.BUNDLESS,
       format: formatName as RedbudBundlessTypes,
       platform: userConfig.platform || defaultPlatform,
@@ -296,10 +296,10 @@ class ConfigProvider {
 export class BundleConfigProvider extends ConfigProvider {
   type = RedbudBuildTypes.BUNDLE;
 
-  configs: IBundleConfig[] = [];
+  configs: BundleConfig[] = [];
 
   constructor(
-    configs: IBundleConfig[],
+    configs: BundleConfig[],
     pkg: ConstructorParameters<typeof ConfigProvider>[0],
   ) {
     super(pkg);
@@ -310,7 +310,7 @@ export class BundleConfigProvider extends ConfigProvider {
 export class BundlessConfigProvider extends ConfigProvider {
   type = RedbudBuildTypes.BUNDLESS;
 
-  configs: IBundlessConfig[] = [];
+  configs: BundlessConfig[] = [];
 
   input = '';
 
@@ -319,7 +319,7 @@ export class BundlessConfigProvider extends ConfigProvider {
   matchers: InstanceType<typeof Minimatcher>[] = [];
 
   constructor(
-    configs: IBundlessConfig[],
+    configs: BundlessConfig[],
     pkg: ConstructorParameters<typeof ConfigProvider>[0],
   ) {
     super(pkg);
@@ -371,8 +371,8 @@ export function createConfigProviders(
       return r;
     },
     { bundle: [], bundless: { esm: [], cjs: [] } } as {
-      bundle: IBundleConfig[];
-      bundless: { esm: IBundlessConfig[]; cjs: IBundlessConfig[] };
+      bundle: BundleConfig[];
+      bundless: { esm: BundlessConfig[]; cjs: BundlessConfig[] };
     },
   );
 

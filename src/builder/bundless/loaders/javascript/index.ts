@@ -1,5 +1,5 @@
 import { getTsconfig } from '../../dts';
-import type { BundlessLoader, ILoaderOutput, JSTransformer } from '../types';
+import type { BundlessLoader, JSTransformer, LoaderOutput } from '../types';
 
 const transformers: Record<string, JSTransformer> = {};
 
@@ -25,7 +25,7 @@ export function addTransformer(item: TransformerItem) {
 const jsLoader: BundlessLoader = function (content) {
   const isTsFile = /tsx?$/.test(this.resource);
   const transformer = transformers[this.config.transformer!];
-  const outputOpts: ILoaderOutput['options'] = {};
+  const outputOpts: LoaderOutput['options'] = {};
 
   if (isTsFile) {
     // specific output ext

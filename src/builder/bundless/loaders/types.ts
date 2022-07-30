@@ -2,7 +2,7 @@ import type { ExtendedLoaderContext } from 'loader-runner';
 import type { Api } from '../../../types';
 import type { BundlessConfig } from '../../config';
 
-export interface ILoaderOutput {
+export interface LoaderOutput {
   content: string;
   options: {
     ext?: string;
@@ -31,18 +31,18 @@ export type BundlessLoader = (
       /**
        * configure output options for current file
        */
-      setOutputOptions: (options: ILoaderOutput['options']) => void;
+      setOutputOptions: (options: LoaderOutput['options']) => void;
 
       /**
        * complete async method type
        */
       async: () => (
         err: Error | null,
-        result?: ILoaderOutput['content'],
+        result?: LoaderOutput['content'],
       ) => void;
     },
   content: string,
-) => ILoaderOutput['content'] | void;
+) => LoaderOutput['content'] | void;
 
 /**
  * bundless transformer type
@@ -55,4 +55,4 @@ export type JSTransformer = (
     };
   },
   content: Parameters<BundlessLoader>[0],
-) => ILoaderOutput['content'] | Promise<ILoaderOutput['content']>;
+) => LoaderOutput['content'] | Promise<LoaderOutput['content']>;

@@ -3,7 +3,7 @@ import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
 import { getCache } from '../../../utils';
 import type { BundlessConfig } from '../../config';
-import type { BundlessLoader, ILoaderOutput } from './types';
+import type { BundlessLoader, LoaderOutput } from './types';
 
 /**
  * loader item type
@@ -53,7 +53,7 @@ export default async (
   const cacheRet = await cache.get(cacheKey, '');
 
   // use cache first
-  if (cacheRet) return Promise.resolve<ILoaderOutput>(cacheRet);
+  if (cacheRet) return Promise.resolve<LoaderOutput>(cacheRet);
 
   // get matched loader by test
   const matched = loaders.find((item) => {
@@ -72,8 +72,8 @@ export default async (
 
   if (matched) {
     // run matched loader
-    return new Promise<ILoaderOutput | void>((resolve, reject) => {
-      let outputOpts: ILoaderOutput['options'] = {};
+    return new Promise<LoaderOutput | void>((resolve, reject) => {
+      let outputOpts: LoaderOutput['options'] = {};
 
       runLoaders(
         {
