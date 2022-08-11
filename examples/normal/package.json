@@ -2,9 +2,13 @@
   "scripts": {
     "build": "redbud build",
     "build:no-clean": "redbud build --no-clean",
+    "dev": "redbud dev",
+    "doctor": "redbud doctor",
     "version": "redbud version"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "redbud": "workspace:*"
   }
 }
