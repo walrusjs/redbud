@@ -169,6 +169,11 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
    * configure autoprefixer
    */
   autoprefixer?: Autoprefixer.Options;
+
+  /**
+   * output library name
+   */
+  name?: string;
 }
 
 export interface RedbudPreBundleConfig {
