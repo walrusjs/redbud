@@ -1,0 +1,10 @@
+{
+  "name": "@example/run",
+  "scripts": {
+    "zx": "redbud run ./scripts/zx.ts",
+    "zx:noimport": "redbud run ./scripts/zx-noimport.ts"
+  },
+  "dependencies": {
+    "redbud": "workspace:*"
+  }
+}
