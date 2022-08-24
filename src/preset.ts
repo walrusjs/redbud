@@ -15,6 +15,7 @@ export default (api: Api) => {
       require.resolve('./commands/release'),
       require.resolve('./commands/version'),
       require.resolve('./commands/help'),
+      require.resolve('./commands/run'),
 
       // features
       require.resolve('./features/configBuilder/configBuilder'),
