@@ -26,7 +26,7 @@
     "dev": "pnpm build -- --watch",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "release": "node ./bin/redbud.js run scripts/release.ts",
+    "release": "redbud run scripts/release.ts",
     "test": "jest",
     "test:cov": "jest --collectCoverage"
   },
@@ -91,8 +91,7 @@
     "prettier-plugin-organize-imports": "^3.1.0",
     "prettier-plugin-packagejson": "^2.2.18",
     "rimraf": "^3.0.2",
-    "ts-node": "^10",
-    "zx": "^4"
+    "zx": "^7.0.8"
   },
   "packageManager": "pnpm@7.3.0",
   "publishConfig": {
