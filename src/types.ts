@@ -174,6 +174,11 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
    * output library name
    */
   name?: string;
+
+  /**
+   * configure less variables
+   */
+  theme?: BundlerWebpackConfig['theme'];
 }
 
 export interface RedbudPreBundleConfig {
