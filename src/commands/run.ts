@@ -1,8 +1,8 @@
-import { fsExtra } from '@umijs/utils';
+import { fsExtra, resolve } from '@umijs/utils';
 import assert from 'assert';
 import { fork } from 'child_process';
 import { writeFileSync } from 'fs';
-import { dirname, join, resolve } from 'path';
+import { dirname, join } from 'path';
 import { Api } from '../types';
 
 export default (api: Api) => {
@@ -50,12 +50,10 @@ export default (api: Api) => {
 };
 
 export function getBinPath() {
-  const pkgPath = require
-    .resolve('tsx')
-    .replace('/dist/loader.js', '/package.json');
-
+  const pkgPath = resolve.sync('tsx/package.json', { basedir: __dirname });
   const pkgContent = require(pkgPath);
-  return resolve(dirname(pkgPath), pkgContent.bin);
+
+  return join(dirname(pkgPath), pkgContent.bin);
 }
 
 export function getFileNameByPath(params: string) {
