@@ -79,7 +79,7 @@ importers:
 
   boilerplate:
     specifiers:
-      '@umijs/utils': ^4.0.0
+      '@umijs/utils': ^4.0.17
     dependencies:
       '@umijs/utils': 4.0.17
 
