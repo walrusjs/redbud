@@ -2,10 +2,10 @@ import { GeneratorType } from '@umijs/core';
 import { logger } from '@umijs/utils';
 import { existsSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { IApi } from '../../types';
+import { Api } from '../../types';
 import { GeneratorHelper } from './utils';
 
-export default (api: IApi) => {
+export default (api: Api) => {
   api.describe({
     key: 'generator:stylelint',
   });
