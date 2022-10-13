@@ -1,4 +1,4 @@
 let umdDemo = {
-  hello: 'hello father',
+  hello: 'hello redbud',
 };
 export default umdDemo;
