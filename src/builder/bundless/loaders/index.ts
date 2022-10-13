@@ -64,7 +64,7 @@ export default async (
 
   // use cache first
   if (cacheRet)
-    return Promise.resolve<ILoaderOutput>({
+    return Promise.resolve<LoaderOutput>({
       ...cacheRet,
       outputOpts: {
         ...cacheRet.outputOpts,
