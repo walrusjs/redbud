@@ -3,6 +3,7 @@ import { runLoaders } from 'loader-runner';
 import type { Api } from '../../../types';
 import { getCache } from '../../../utils';
 import type { BundlessConfig } from '../../config';
+import { getTsconfig } from '../dts';
 import type { BundlessLoader, LoaderOutput } from './types';
 
 /**
