@@ -7,7 +7,6 @@ import { getBabelPresetReactOpts } from '../utils';
 const bundler: typeof import('@umijs/bundler-webpack') = importLazy(
   path.dirname(require.resolve('@umijs/bundler-webpack/package.json')),
 );
-
 const {
   CSSMinifier,
   JSMinifier,
@@ -18,6 +17,7 @@ const {
 export default async (opts: {
   cwd: string;
   configProvider: BundleConfigProvider;
+  buildDependencies?: string[];
 }) => {
   const enableCache = process.env.REDBUD_CACHE !== 'none';
 
@@ -38,12 +38,15 @@ export default async (opts: {
         autoprefixer: config.autoprefixer,
         chainWebpack: config.chainWebpack,
         define: config.define,
+        devtool: config.sourcemap && 'source-map',
         externals: config.externals,
         outputPath: config.output.path,
 
         // postcss config
         extraPostCSSPlugins,
         postcssLoader,
+
+        ...(config.extractCSS !== false ? {} : { styleLoader: {} }),
 
         // less config
         theme: config.theme,
@@ -102,6 +105,7 @@ export default async (opts: {
       ...(enableCache
         ? {
             cache: {
+              buildDependencies: opts.buildDependencies,
               cacheDirectory: path.join(opts.cwd, CACHE_PATH, 'bundle-webpack'),
             },
           }

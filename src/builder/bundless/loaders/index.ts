@@ -41,7 +41,12 @@ export function addLoader(item: LoaderItem) {
  */
 export default async (
   fileAbsPath: string,
-  opts: { config: BundlessConfig; pkg: Api['pkg']; cwd: string },
+  opts: {
+    config: BundlessConfig;
+    pkg: Api['pkg'];
+    cwd: string;
+    itemDistAbsPath: string;
+  },
 ) => {
   const cache = getCache('bundless-loader');
   // format: {path:mtime:config:pkgDeps}
@@ -57,7 +62,17 @@ export default async (
   const cacheRet = await cache.get(cacheKey, '');
 
   // use cache first
-  if (cacheRet) return Promise.resolve<LoaderOutput>(cacheRet);
+  if (cacheRet)
+    return Promise.resolve<ILoaderOutput>({
+      ...cacheRet,
+      outputOpts: {
+        ...cacheRet.outputOpts,
+        // FIXME: shit code for avoid invalid declaration value when tsconfig changed
+        declaration: /\.tsx?$/.test(fileAbsPath)
+          ? getTsconfig(opts.cwd)?.options.declaration
+          : false,
+      },
+    });
 
   // get matched loader by test
   const matched = loaders.find((item) => {
@@ -87,6 +102,7 @@ export default async (
             cwd: opts.cwd,
             config: opts.config,
             pkg: opts.pkg,
+            itemDistAbsPath: opts.itemDistAbsPath,
             setOutputOptions(opts) {
               outputOpts = opts;
             },

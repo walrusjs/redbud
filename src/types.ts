@@ -96,6 +96,11 @@ export interface RedbudBaseConfig {
    * configure extra babel plugins
    */
   extraBabelPlugins?: BundlerWebpackConfig['extraBabelPlugins'];
+
+  /**
+   * output sourcemap
+   */
+  sourcemap?: boolean;
 }
 
 export interface RedbudBundlessConfig extends RedbudBaseConfig {
@@ -145,6 +150,12 @@ export interface RedbudBundleConfig extends RedbudBaseConfig {
    * @default dist/umd
    */
   output?: string;
+
+  /**
+   * extract CSS
+   * @default true
+   */
+  extractCSS?: boolean;
 
   /**
    * external dependencies

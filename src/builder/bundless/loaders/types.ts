@@ -2,15 +2,18 @@ import type { ExtendedLoaderContext } from 'loader-runner';
 import type { Api } from '../../../types';
 import type { BundlessConfig } from '../../config';
 
+type SourceMap = string | null | undefined;
+
 export interface LoaderOutput {
   content: string;
   options: {
     ext?: string;
     declaration?: boolean;
+    map?: SourceMap;
   };
 }
 
-export interface ILoaderContext {
+export interface LoaderContext {
   /**
    * final bundless config
    */
@@ -26,8 +29,11 @@ export interface ILoaderContext {
  */
 export type BundlessLoader = (
   this: Omit<ExtendedLoaderContext, 'async'> &
-    ILoaderContext & {
+    LoaderContext & {
       cwd: string;
+
+      itemDistAbsPath: string;
+
       /**
        * configure output options for current file
        */
@@ -44,15 +50,18 @@ export type BundlessLoader = (
   content: string,
 ) => LoaderOutput['content'] | void;
 
+type JSTransformerResult = [LoaderOutput['content'], SourceMap?];
+
 /**
  * bundless transformer type
  */
 export type JSTransformer = (
-  this: ILoaderContext & {
+  this: LoaderContext & {
     paths: {
       cwd: string;
       fileAbsPath: string;
+      itemDistAbsPath: string;
     };
   },
   content: Parameters<BundlessLoader>[0],
-) => LoaderOutput['content'] | Promise<LoaderOutput['content']>;
+) => JSTransformerResult | Promise<JSTransformerResult>;

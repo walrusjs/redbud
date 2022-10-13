@@ -31,6 +31,7 @@ interface BuilderOpts {
   pkg: Api['pkg'];
   clean?: boolean;
   quiet?: boolean;
+  buildDependencies?: string[];
 }
 
 interface WatchBuilderResult {
@@ -66,6 +67,7 @@ async function builder(
     await bundle({
       cwd: opts.cwd,
       configProvider: configProviders.bundle,
+      buildDependencies: opts.buildDependencies,
     });
   }
 

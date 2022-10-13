@@ -16,4 +16,3 @@ export default (files: Record<string, string>) => {
     fs.readFileSync(path.join(__dirname, './src/raw.txt'), 'utf-8'),
   );
 };
-``;

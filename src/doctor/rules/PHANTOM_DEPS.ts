@@ -13,6 +13,7 @@ export default (api: Api) => {
 
       if (
         pkgName &&
+        api.pkg.name !== pkgName &&
         !api.pkg.dependencies?.[pkgName] &&
         !api.pkg.peerDependencies?.[pkgName] &&
         aliasKeys.every((k) => k !== i.path && !i.path.startsWith(`${k}/`)) &&

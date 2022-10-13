@@ -14,6 +14,7 @@ function getCommonSchemas(): Record<string, (Joi: Root) => any> {
     autoprefixer: (Joi) => Joi.object().optional(),
     extraBabelPresets: (Joi) => Joi.array().optional(),
     extraBabelPlugins: (Joi) => Joi.array().optional(),
+    sourcemap: (Joi) => Joi.boolean().optional(),
   };
 }
 
@@ -53,7 +54,9 @@ export function getSchemas(): Record<string, (Joi: Root) => any> {
         output: Joi.string().optional(),
         externals: Joi.object().pattern(Joi.string(), Joi.string()),
         chainWebpack: Joi.function().optional(),
+        extractCSS: Joi.boolean().optional(),
         name: Joi.string().optional(),
+        theme: Joi.object().pattern(Joi.string(), Joi.string()),
       }),
     prebundle: (Joi) =>
       Joi.object({

@@ -7,6 +7,8 @@ export const BUILD_COMMANDS = ['build', 'prebundle'];
 export const DEBUG_BUNDLESS_NAME = 'redbud:bundless';
 export const CACHE_PATH = 'node_modules/.cache/redbud';
 export const DEFAULT_BUNDLESS_IGNORES = [
+  '**/.*',
+  '**/.*/**',
   '**/*.md',
   '**/demos/**',
   '**/fixtures/**',
