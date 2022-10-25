@@ -58,6 +58,7 @@ export enum RedbudBuildTypes {
 export enum RedbudJSTransformerTypes {
   BABEL = 'babel',
   ESBUILD = 'esbuild',
+  SWC = 'swc',
 }
 
 export enum RedbudPlatformTypes {

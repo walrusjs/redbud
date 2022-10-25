@@ -1,7 +1,25 @@
 import { semver } from '@umijs/utils';
+import path from 'path';
 import { Api } from '../types';
 
-export function getBabelPresetReactOpts(pkg: Api['pkg']) {
+export function addSourceMappingUrl(code: string, loc: string) {
+  return (
+    code +
+    '\n//# sourceMappingURL=' +
+    path.basename(loc.replace(/\.(jsx|tsx?)$/, '.js'))
+  );
+}
+
+export function getIsLTRReact17(pkg: Api['pkg']) {
+  const reactVer = Object.assign(
+    {},
+    pkg.dependencies,
+    pkg.peerDependencies,
+  ).react;
+  return semver.subset(reactVer, '>=17.0.0-0');
+}
+
+export function getBaseTransformReactOpts(pkg: Api['pkg']) {
   const reactVer = Object.assign(
     {},
     pkg.dependencies,
@@ -10,7 +28,7 @@ export function getBabelPresetReactOpts(pkg: Api['pkg']) {
   let opts: Record<string, any> = {};
 
   if (reactVer) {
-    const isLTRReact17 = semver.subset(reactVer, '>=17.0.0-0');
+    const isLTRReact17 = getIsLTRReact17(pkg);
 
     opts = {
       // force use production mode, to make sure dist of dev/build are consistent
@@ -23,4 +41,24 @@ export function getBabelPresetReactOpts(pkg: Api['pkg']) {
   }
 
   return opts;
+}
+
+export function getBabelPresetReactOpts(pkg: Api['pkg']) {
+  return {
+    ...getBaseTransformReactOpts(pkg),
+  };
+}
+
+export function getSWCTransformReactOpts(pkg: Api['pkg']) {
+  return {
+    ...getBaseTransformReactOpts(pkg),
+  };
+}
+
+export function ensureRelativePath(relativePath: string) {
+  // prefix . for same-level path
+  if (!relativePath.startsWith('.')) {
+    relativePath = `./${relativePath}`;
+  }
+  return relativePath;
 }

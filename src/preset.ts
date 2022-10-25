@@ -26,6 +26,7 @@ export default (api: Api) => {
       // features
       require.resolve('./features/configBuilder/configBuilder'),
       require.resolve('./features/configPlugins/configPlugins'),
+      require.resolve('./features/depsOnDemand/swc'),
     ],
   };
 };

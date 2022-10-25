@@ -40,6 +40,12 @@ export default async (api: Api) => {
           '../../builder/bundless/loaders/javascript/esbuild',
         ),
       },
+      {
+        id: RedbudJSTransformerTypes.SWC,
+        transformer: require.resolve(
+          '../../builder/bundless/loaders/javascript/swc',
+        ),
+      },
     ],
   });
 
