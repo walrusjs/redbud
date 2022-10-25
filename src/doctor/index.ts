@@ -65,7 +65,7 @@ export default async (api: Api): Promise<DoctorReport> => {
     [[], []],
   );
   const preBundleConfig = getPreBundleConfig({
-    userConfig: api.config.prebundle || {},
+    userConfig: api.config.prebundle || { deps: [] },
     pkg: api.pkg,
     cwd: api.cwd,
   });

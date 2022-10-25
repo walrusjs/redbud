@@ -2,7 +2,7 @@ import type { Compiler } from '@umijs/bundler-webpack';
 import type Autoprefixer from '@umijs/bundler-webpack/compiled/autoprefixer';
 import type WebpackChain from '@umijs/bundler-webpack/compiled/webpack-5-chain';
 import type { IConfig as BundlerWebpackConfig } from '@umijs/bundler-webpack/dist/types';
-import type { IAdd, IServicePluginAPI, PluginAPI } from '@umijs/core';
+import type { IAdd, IModify, IServicePluginAPI, PluginAPI } from '@umijs/core';
 import type { TransformerItem } from './builder/bundless/loaders/javascript';
 import type { BundleConfig, BundlessConfig } from './builder/config';
 import type { DoctorReport } from './doctor';
@@ -15,7 +15,10 @@ export type {
 } from './builder/bundless/loaders/types';
 
 export type Api = PluginAPI &
-  IServicePluginAPI & {
+  Omit<
+    IServicePluginAPI,
+    'modifyConfig' | 'modifyDefaultConfig' | 'config' | 'userConfig'
+  > & {
     /**
      * add bundless js transformer
      */
@@ -48,6 +51,18 @@ export type Api = PluginAPI &
       },
       DoctorReport | DoctorReport[0] | void
     >;
+
+    /**
+     * config modify methods definition
+     */
+    modifyConfig: IModify<Omit<RedbudConfig, 'extends'>, null>;
+    modifyDefaultConfig: IModify<Omit<RedbudConfig, 'extends'>, null>;
+
+    /**
+     * config definition
+     */
+    config: Omit<RedbudConfig, 'extends'>;
+    userConfig: RedbudConfig;
   };
 
 export enum RedbudBuildTypes {
@@ -250,4 +265,14 @@ export interface RedbudConfig extends RedbudBaseConfig {
    * deps pre-bundle config
    */
   prebundle?: RedbudPreBundleConfig;
+
+  /**
+   * extra plugins
+   */
+  plugins?: string[];
+
+  /**
+   * extra presets
+   */
+  presets?: string[];
 }
