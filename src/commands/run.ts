@@ -21,7 +21,7 @@ export default (api: Api) => {
     name: 'run',
     description: 'run scripts',
     fn: ({ args }) => {
-      const globals: string[] = api.config.run?.globals || [];
+      const globals: string[] = [];
       const [scriptFilePath, ...restArgs] = args._;
       const absScriptFilePath = join(api.cwd, scriptFilePath);
 
