@@ -58,6 +58,6 @@ export function getBinPath() {
   return join(dirname(pkgPath), pkgContent.bin);
 }
 
-export function getFileNameByPath(params: string) {
+export function getFileNameByPath(params: string = '') {
   return params.split('/').at(-1);
 }
