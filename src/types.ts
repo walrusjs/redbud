@@ -117,6 +117,11 @@ export interface RedbudBaseConfig {
    * output sourcemap
    */
   sourcemap?: boolean;
+
+  /**
+   * compile targets
+   */
+  targets?: Record<string, number>;
 }
 
 export interface RedbudBundlessConfig extends RedbudBaseConfig {

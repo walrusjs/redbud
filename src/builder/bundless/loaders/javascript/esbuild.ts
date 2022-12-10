@@ -1,7 +1,8 @@
 import { build } from '@umijs/bundler-utils/compiled/esbuild';
 import { winPath } from '@umijs/utils';
 import path from 'path';
-import { RedbudBundlessConfig, RedbudPlatformTypes } from '../../../../types';
+import { RedbudBundlessConfig } from '../../../../types';
+import { getBundlessTargets } from '../../../utils';
 import type { JSTransformer } from '../types';
 
 /**
@@ -59,14 +60,14 @@ const esbuildTransformer: JSTransformer = async function () {
     format: this.config.format,
     define: this.config.define,
     platform: this.config.platform,
-    target:
-      this.config.platform === RedbudPlatformTypes.NODE ? 'node14' : 'es6',
+    target: getBundlessTargets(this.config),
+    charset: 'utf8',
     // esbuild need relative entry path
     entryPoints: [path.relative(this.paths.cwd, this.paths.fileAbsPath)],
     absWorkingDir: this.paths.cwd,
     plugins: [
       {
-        name: 'plugin-redbud-alias',
+        name: 'plugin-father-alias',
         setup: (builder) => {
           builder.onResolve({ filter: /.*/ }, (args) => {
             if (args.kind === 'entry-point') {

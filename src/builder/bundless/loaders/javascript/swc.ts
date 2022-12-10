@@ -1,14 +1,11 @@
 import { winPath } from '@umijs/utils';
 import { lstatSync } from 'fs';
 import path from 'path';
-import {
-  RedbudBundlessConfig,
-  RedbudBundlessTypes,
-  RedbudPlatformTypes,
-} from '../../../../types';
+import { RedbudBundlessConfig, RedbudBundlessTypes } from '../../../../types';
 import {
   addSourceMappingUrl,
   ensureRelativePath,
+  getBundlessTargets,
   getSWCTransformReactOpts,
 } from '../../../utils';
 import { JSTransformer } from '../types';
@@ -133,6 +130,9 @@ const swcTransformer: JSTransformer = async function (content) {
         )
       : undefined,
     sourceMaps: this.config.sourcemap,
+    env: {
+      targets: getBundlessTargets(this.config),
+    },
 
     jsc: {
       baseUrl: this.paths.cwd,
@@ -142,8 +142,6 @@ const swcTransformer: JSTransformer = async function (content) {
         ...(isTSFile && isJSXFile ? { tsx: true } : {}),
         ...(!isTSFile && isJSXFile ? { jsx: true } : {}),
       },
-      target:
-        this.config.platform === RedbudPlatformTypes.BROWSER ? 'es5' : 'es2019',
       transform: {
         react: getSWCTransformReactOpts(this.pkg),
       },

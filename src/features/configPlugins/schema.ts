@@ -1,5 +1,5 @@
 import type { Root, SchemaLike } from '@umijs/utils/compiled/@hapi/joi';
-import { RedbudPlatformTypes } from '../../types';
+import { RedbudJSTransformerTypes, RedbudPlatformTypes } from '../../types';
 
 function getCommonSchemas(): Record<string, (Joi: Root) => any> {
   return {
@@ -15,6 +15,7 @@ function getCommonSchemas(): Record<string, (Joi: Root) => any> {
     extraBabelPresets: (Joi) => Joi.array().optional(),
     extraBabelPlugins: (Joi) => Joi.array().optional(),
     sourcemap: (Joi) => Joi.boolean().optional(),
+    targets: (Joi) => Joi.object().optional(),
   };
 }
 
@@ -33,7 +34,11 @@ function getBundlessSchemas(Joi: Root) {
     ...getCommonSchemasJoi(Joi),
     input: Joi.string(),
     output: Joi.string(),
-    transformer: Joi.string(),
+    transformer: Joi.equal(
+      RedbudJSTransformerTypes.BABEL,
+      RedbudJSTransformerTypes.ESBUILD,
+      RedbudJSTransformerTypes.SWC,
+    ).optional(),
     overrides: Joi.object(),
     ignores: Joi.array().items(Joi.string()),
   });

@@ -1,11 +1,12 @@
 import { transform } from '@umijs/bundler-utils/compiled/babel/core';
 import { winPath } from '@umijs/utils';
 import path from 'path';
-import { RedbudBundlessTypes, RedbudPlatformTypes } from '../../../../types';
+import { RedbudBundlessTypes } from '../../../../types';
 import {
   addSourceMappingUrl,
   ensureRelativePath,
   getBabelPresetReactOpts,
+  getBundlessTargets,
 } from '../../../utils';
 import type { JSTransformer } from '../types';
 
@@ -35,10 +36,7 @@ const babelTransformer: JSTransformer = function (content) {
   // TODO: correct optional in umi types and replace any here
   const presetOpts: any = {
     presetEnv: {
-      targets:
-        this.config.platform === RedbudPlatformTypes.BROWSER
-          ? { ie: 11 }
-          : { node: 14 },
+      targets: getBundlessTargets(this.config),
       modules: this.config.format === RedbudBundlessTypes.ESM ? false : 'auto',
     },
     presetReact: getBabelPresetReactOpts(this.pkg),

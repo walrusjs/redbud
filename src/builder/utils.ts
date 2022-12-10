@@ -1,12 +1,18 @@
 import { semver } from '@umijs/utils';
 import path from 'path';
-import { Api } from '../types';
+import {
+  Api,
+  RedbudBaseConfig,
+  RedbudJSTransformerTypes,
+  RedbudPlatformTypes,
+} from '../types';
+import type { BundlessConfig } from './config';
 
 export function addSourceMappingUrl(code: string, loc: string) {
   return (
     code +
     '\n//# sourceMappingURL=' +
-    path.basename(loc.replace(/\.(jsx|tsx?)$/, '.js'))
+    path.basename(loc.replace(/\.(jsx|tsx?)$/, '.js.map'))
   );
 }
 
@@ -61,4 +67,45 @@ export function ensureRelativePath(relativePath: string) {
     relativePath = `./${relativePath}`;
   }
   return relativePath;
+}
+
+const defaultCompileTarget: Record<
+  RedbudPlatformTypes,
+  Record<RedbudJSTransformerTypes, any>
+> = {
+  [RedbudPlatformTypes.BROWSER]: {
+    [RedbudJSTransformerTypes.BABEL]: { ie: 11 },
+    [RedbudJSTransformerTypes.ESBUILD]: ['chrome65'],
+    [RedbudJSTransformerTypes.SWC]: { chrome: 65 },
+  },
+  [RedbudPlatformTypes.NODE]: {
+    [RedbudJSTransformerTypes.BABEL]: { node: 14 },
+    [RedbudJSTransformerTypes.ESBUILD]: ['node14'],
+    [RedbudJSTransformerTypes.SWC]: { node: 14 },
+  },
+};
+
+export function getBundleTargets({ targets }: RedbudBaseConfig) {
+  if (!targets || !Object.keys(targets).length) {
+    return defaultCompileTarget[RedbudPlatformTypes.BROWSER][
+      RedbudJSTransformerTypes.BABEL
+    ];
+  }
+
+  return targets;
+}
+
+export function getBundlessTargets(config: BundlessConfig) {
+  const { platform, transformer, targets } = config;
+
+  // targets is undefined or empty, fallback to default
+  if (!targets || !Object.keys(targets).length) {
+    return defaultCompileTarget[platform!][transformer!];
+  }
+  // esbuild accept string or string[]
+  if (transformer === RedbudJSTransformerTypes.ESBUILD) {
+    return Object.keys(targets).map((name) => `${name}${targets![name]}`);
+  }
+
+  return targets;
 }

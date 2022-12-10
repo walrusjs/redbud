@@ -1,5 +1,4 @@
 import { chalk } from '@umijs/utils';
-
 import type { DoctorReport } from '..';
 import type { Api } from '../../types';
 
@@ -8,7 +7,9 @@ export default (api: Api) => {
     const errors: DoctorReport = [];
 
     imports.forEach((i) => {
-      const pkgName = i.path.match(/^(?:@[\w-]+\/)?[\w-]+/i)?.[0];
+      const pkgName = i.path.match(
+        /^(?:@[a-z\d][\w-.]*\/)?[a-z\d][\w-.]*/i,
+      )?.[0];
       const aliasKeys = Object.keys(mergedAlias);
 
       if (

@@ -3,7 +3,7 @@ import type { BundlessLoader, JSTransformer, LoaderOutput } from '../types';
 
 const transformers: Record<string, JSTransformer> = {};
 
-export interface TransformerItem {
+export interface ITransformerItem {
   id: string;
   transformer: string;
 }
@@ -12,7 +12,7 @@ export interface TransformerItem {
  * add javascript transformer
  * @param item
  */
-export function addTransformer(item: TransformerItem) {
+export function addTransformer(item: ITransformerItem) {
   const mod = require(item.transformer);
   const transformer: JSTransformer = mod.default || mod;
 
