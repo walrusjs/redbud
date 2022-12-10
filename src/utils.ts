@@ -2,7 +2,7 @@ import { pkgUp } from '@umijs/utils';
 import Cache from 'file-system-cache';
 import path from 'path';
 import { CACHE_PATH } from './constants';
-import { Api } from './types';
+import type { Api } from './types';
 
 const caches: Record<string, ReturnType<typeof Cache>> = {};
 

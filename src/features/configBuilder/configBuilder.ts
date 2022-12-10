@@ -6,7 +6,9 @@ import {
   addTransformer as addJSTransformer,
   TransformerItem,
 } from '../../builder/bundless/loaders/javascript';
-import { Api, RedbudJSTransformerTypes } from '../../types';
+import { RedbudJSTransformerTypes } from '../../types';
+
+import type { Api } from '../../types';
 
 export default async (api: Api) => {
   // collect all bundless loaders

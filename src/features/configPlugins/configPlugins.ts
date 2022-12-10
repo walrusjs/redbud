@@ -1,7 +1,8 @@
-import path from 'path';
 import { deepmerge, resolve } from '@umijs/utils';
-import { Api } from '../../types';
+import path from 'path';
 import { getSchemas } from './schema';
+
+import type { Api } from '../../types';
 
 /**
  * parse extends option for config

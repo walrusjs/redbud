@@ -4,12 +4,13 @@ import {
 } from '@microsoft/api-extractor';
 import { winPath } from '@umijs/utils';
 import path from 'path';
-import { Api, RedbudPreBundleConfig } from '../types';
 import {
   getDepPkgPath,
   getDtsInfoForPkgPath,
   getNestedTypeDepsForPkg,
 } from '../utils';
+
+import type { Api, RedbudPreBundleConfig } from '../types';
 
 export interface PreBundleConfig {
   deps: Record<string, { pkg: Api['pkg']; output: string; nccConfig: any }>;

@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import fg from 'fast-glob';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { Api } from '../../types';
+import type { Api } from '../../types';
 import { GeneratorHelper } from './utils';
 
 export default (api: Api) => {
