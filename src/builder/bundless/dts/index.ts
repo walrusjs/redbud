@@ -49,6 +49,16 @@ export default async function getDeclarations(
       );
     }
 
+    // warn if noEmit is false
+    /* istanbul ignore if -- @preserve */
+    if (tsconfig.options.declaration && tsconfig.options.noEmit === true) {
+      logger.warn(
+        'tsconfig.json `noEmit` is true, will not emit declaration files!',
+      );
+
+      return output;
+    }
+
     // enable declarationMap by default in development mode
     if (
       process.env.NODE_ENV === 'development' &&
